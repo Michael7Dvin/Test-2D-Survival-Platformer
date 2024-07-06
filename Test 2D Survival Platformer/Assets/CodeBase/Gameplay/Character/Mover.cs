@@ -13,7 +13,10 @@ namespace CodeBase.Gameplay.Character
             _rigidbody = rigidbody;
         }
 
-        public void Move(Vector2 direction) => 
-            _rigidbody.velocity = direction * _moveSpeed;
+        public void Move(Vector2 direction, float deltaTime)
+        {
+            Vector2 newPosition = _rigidbody.position + direction * (_moveSpeed * deltaTime);
+            _rigidbody.MovePosition(newPosition);
+        }
     }
 }

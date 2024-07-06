@@ -1,4 +1,5 @@
 ﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
+using CodeBase.Infrastructure.Services.CharacterFactory;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
@@ -11,6 +12,8 @@ namespace CodeBase.Infrastructure.Installers
     public class ProjectInstaller : MonoInstaller
     {
         [SerializeField] private SceneAddresses _sceneAddresses;
+        [SerializeField] private PrefabAddresses _prefabAddresses;
+        [SerializeField] private GameConfig _gameConfig;
         
         public override void InstallBindings()
         {
@@ -23,10 +26,11 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IStaticDataProvider>()
                 .To<StaticDataProvider>()
                 .AsSingle()
-                .WithArguments(_sceneAddresses);
+                .WithArguments(_sceneAddresses, _prefabAddresses, _gameConfig);
 
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
+            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
         }
 
         private void BindGameStateMachine()

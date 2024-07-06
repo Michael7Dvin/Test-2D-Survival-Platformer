@@ -75,3 +75,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneAddresses: {fileID: 11400000, guid: b0bd298be084acf419bc3a4527d847d7, type: 2}
+  _prefabAddresses: {fileID: 11400000, guid: b71c12f3a8ac8224fbe4920799078ea5, type: 2}
+  _gameConfig: {fileID: 11400000, guid: 24dadddb839bfda48a0f889119e6d217, type: 2}
