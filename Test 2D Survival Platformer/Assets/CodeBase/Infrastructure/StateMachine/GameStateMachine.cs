@@ -19,7 +19,6 @@ namespace CodeBase.Infrastructure.StateMachine
             if (_states[typeof(TState)] is TState state)
             {
                 _activeState = state;
-                
                 state.Enter();
             }
         }
