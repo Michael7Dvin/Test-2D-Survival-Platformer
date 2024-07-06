@@ -2,7 +2,7 @@
 using CodeBase.Infrastructure.StateMachine.States;
 using Zenject;
 
-namespace CodeBase.Infrastructure.Installers
+namespace CodeBase.Infrastructure
 {
     public class Bootstrapper : IInitializable
     {
