@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -8,9 +9,25 @@ namespace CodeBase.Infrastructure.Services.AddressablesLoader
 {
     public class AddressablesLoader : IAddressablesLoader
     {
-        public UniTask<GameObject> LoadGameObjectAsync(AssetReferenceGameObject assetReference)
+        private readonly Dictionary<string, AsyncOperationHandle> _cachedAssets = new();
+        
+        public async UniTask<GameObject> LoadGameObjectAsync(AssetReferenceGameObject assetReference)
         {
-            throw new System.NotImplementedException();
+            if (assetReference.RuntimeKeyIsValid() == false)
+            {
+                Debug.LogError("Unable to load GameObject. AssetReference is null");
+                return null;
+            }
+
+            string assetID = assetReference.AssetGUID;
+            
+            if (_cachedAssets.TryGetValue(assetID, out AsyncOperationHandle cachedHandle))
+                return (GameObject) cachedHandle.Result;
+
+            AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(assetReference);
+            await handle.Task;
+            _cachedAssets.Add(assetID, handle);
+            return handle.Result;
         }
 
         public async UniTask LoadSceneAsync(AssetReference sceneReference)
