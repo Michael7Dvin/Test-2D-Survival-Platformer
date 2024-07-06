@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SceneAddresses
   m_EditorClassIdentifier: 
   <GameLevel>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 24b6fde5f49cf26499bd67f101bb4c9d
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

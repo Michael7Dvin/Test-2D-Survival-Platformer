@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace CodeBase.Infrastructure.StateMachine.States
+﻿namespace CodeBase.Infrastructure.StateMachine.States
 {
     public class InitializationState : IState
     {
@@ -13,7 +11,6 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         public void Enter()
         {
-            Debug.Log("InitializationState");
             _gameStateMachine.EnterState<LevelLoadingState>();
         }
 

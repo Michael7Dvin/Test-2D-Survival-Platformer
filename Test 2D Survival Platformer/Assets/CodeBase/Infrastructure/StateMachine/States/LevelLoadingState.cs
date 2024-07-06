@@ -1,19 +1,21 @@
-﻿using UnityEngine;
+﻿using CodeBase.Infrastructure.Services.SceneLoader;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
     public class LevelLoadingState : IState
     {
         private readonly IGameStateMachine _gameStateMachine;
+        private readonly ISceneLoader _sceneLoader;
 
-        public LevelLoadingState(IGameStateMachine gameStateMachine)
+        public LevelLoadingState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader)
         {
             _gameStateMachine = gameStateMachine;
+            _sceneLoader = sceneLoader;
         }
 
-        public void Enter()
+        public async void Enter()
         {
-            Debug.Log("LevelLoadingState");
+            await _sceneLoader.LoadGameLevel();
             _gameStateMachine.EnterState<GameplayState>();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.StateMachine.States;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine
 {
@@ -10,8 +11,6 @@ namespace CodeBase.Infrastructure.StateMachine
 
         private IExitableState _activeState;
 
-        public IExitableState ActiveState => _activeState;
-
         public void EnterState<TState>() where TState : IState
         {
             _activeState?.Exit();
@@ -19,6 +18,7 @@ namespace CodeBase.Infrastructure.StateMachine
             if (_states[typeof(TState)] is TState state)
             {
                 _activeState = state;
+                Debug.Log($"Entered: {typeof(TState).Name}");
                 state.Enter();
             }
         }
@@ -27,8 +27,11 @@ namespace CodeBase.Infrastructure.StateMachine
         {
             _activeState?.Exit();
 
-            if (_states[typeof(TState)] is TState state) 
+            if (_states[typeof(TState)] is TState state)
+            {
+                Debug.Log($"Entered: {typeof(TState).Name}");
                 state.Enter(args);
+            }
         }
 
         public void AddState<TState>(TState state) where TState : IExitableState => 
