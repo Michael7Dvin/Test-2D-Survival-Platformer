@@ -9,9 +9,7 @@ namespace CodeBase.Gameplay.Character.Healths
 
         public IObservable<Unit> Died => _died;
         
-        public void Die()
-        {
+        public void Die() => 
             _died.OnNext(Unit.Default);
-        }
     }
 }
