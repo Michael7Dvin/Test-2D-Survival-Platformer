@@ -1,7 +1,7 @@
 ﻿using System;
 using UniRx;
 
-namespace CodeBase.Gameplay.Character.Healths
+namespace CodeBase.Gameplay.Character.Death
 {
     public interface IDieable
     {

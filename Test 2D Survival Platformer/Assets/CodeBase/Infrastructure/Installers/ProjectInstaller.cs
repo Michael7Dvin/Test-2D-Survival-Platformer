@@ -14,7 +14,7 @@ namespace CodeBase.Infrastructure.Installers
     {
         [SerializeField] private SceneAddresses _sceneAddresses;
         [SerializeField] private PrefabAddresses _prefabAddresses;
-        [SerializeField] private GameConfig _gameConfig;
+        [SerializeField] private CharacterConfig _characterConfig;
         
         public override void InstallBindings()
         {
@@ -27,7 +27,7 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IStaticDataProvider>()
                 .To<StaticDataProvider>()
                 .AsSingle()
-                .WithArguments(_sceneAddresses, _prefabAddresses, _gameConfig);
+                .WithArguments(_sceneAddresses, _prefabAddresses, _characterConfig);
 
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();

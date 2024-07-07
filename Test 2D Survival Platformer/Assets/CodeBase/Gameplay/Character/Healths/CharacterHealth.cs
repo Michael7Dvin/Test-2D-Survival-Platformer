@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace CodeBase.Gameplay.Character.Healths
 {
-    public class Health : IHealth, IDamageable
+    public class CharacterHealth : IHealth, IDamageable
     {
         private readonly ReactiveProperty<float> _currentHealth = new();
 
-        public Health(float maxHealth)
+        public CharacterHealth(float maxHealth)
         {
             MaxHealth = maxHealth;
+            _currentHealth.Value = MaxHealth;
         }
 
         public float MaxHealth { get; }
