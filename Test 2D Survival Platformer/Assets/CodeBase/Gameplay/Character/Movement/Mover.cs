@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace CodeBase.Gameplay.Character
+namespace CodeBase.Gameplay.Character.Movement
 {
-    public class Mover
+    public class Mover : IMover
     {
         private readonly float _moveSpeed;
         private readonly Rigidbody2D _rigidbody;

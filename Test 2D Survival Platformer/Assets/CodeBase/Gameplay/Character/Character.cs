@@ -1,4 +1,5 @@
-﻿using CodeBase.Infrastructure.Services.InputService;
+﻿using CodeBase.Gameplay.Character.Movement;
+using CodeBase.Infrastructure.Services.InputService;
 using UniRx;
 using UnityEngine;
 using Zenject;

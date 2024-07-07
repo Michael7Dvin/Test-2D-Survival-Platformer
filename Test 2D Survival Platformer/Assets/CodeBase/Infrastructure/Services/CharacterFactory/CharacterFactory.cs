@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Character;
+using CodeBase.Gameplay.Character.Movement;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using Cysharp.Threading.Tasks;
