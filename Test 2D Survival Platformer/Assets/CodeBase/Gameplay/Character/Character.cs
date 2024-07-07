@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using CodeBase.Infrastructure.Services.InputService;
+using UniRx;
+using UnityEngine;
+using Zenject;
 
 namespace CodeBase.Gameplay.Character
 {
     public class Character : MonoBehaviour
     {
+        [Inject] private readonly IInputService _inputService;
+        
         private Mover _mover;
 
         public void Construct(Mover mover)
@@ -11,12 +16,11 @@ namespace CodeBase.Gameplay.Character
             _mover = mover;
         }
 
-        private void Update()
+        private void Start()
         {
-            float moveInput = Input.GetAxis("Horizontal");
-            Vector2 moveDirection = new Vector2(moveInput, 0);
-            
-            _mover.Move(moveDirection, Time.deltaTime);
+            _inputService.HorizontalMoveInput
+                .Subscribe(xAxis => _mover.Move(new Vector2(xAxis, 0), Time.deltaTime))
+                .AddTo(this);
         }
     }
 }

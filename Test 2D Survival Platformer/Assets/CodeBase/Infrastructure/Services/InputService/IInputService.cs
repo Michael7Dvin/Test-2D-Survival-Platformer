@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UniRx;
 
 namespace CodeBase.Infrastructure.Services.InputService
 {
     public interface IInputService
     {
-        event Action<float> HorizontalMoveInput;
+        ReactiveProperty<float> HorizontalMoveInput { get; }
     }
 }

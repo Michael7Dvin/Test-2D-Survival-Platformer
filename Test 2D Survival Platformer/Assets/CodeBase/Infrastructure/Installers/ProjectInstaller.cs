@@ -1,5 +1,6 @@
 ﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.CharacterFactory;
+using CodeBase.Infrastructure.Services.InputService;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
@@ -31,6 +32,7 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
             Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
         }
 
         private void BindGameStateMachine()

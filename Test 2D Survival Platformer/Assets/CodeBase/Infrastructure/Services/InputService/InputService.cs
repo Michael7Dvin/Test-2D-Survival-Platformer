@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -6,15 +6,17 @@ namespace CodeBase.Infrastructure.Services.InputService
 {
     public class InputService : IInputService, ITickable
     {
-        public event Action<float> HorizontalMoveInput;
-        
-        
+        private const string HorizontalAxisName = "Horizontal";
+        public ReactiveProperty<float> HorizontalMoveInput { get; } = new();
+
         public void Tick()
         {
-            float horizontal = Input.GetAxis("Horizontal");
+            float horizontalInput = Input.GetAxis(HorizontalAxisName);
             
-            if (horizontal != 0) 
-                HorizontalMoveInput?.Invoke(horizontal);
+            if(horizontalInput != 0)
+                HorizontalMoveInput.SetValueAndForceNotify(horizontalInput);
+            else
+                HorizontalMoveInput.Value = horizontalInput;
         }
     }
 }
