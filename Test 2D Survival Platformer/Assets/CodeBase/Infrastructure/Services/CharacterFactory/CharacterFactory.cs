@@ -45,7 +45,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             
             Character character = characterGameObject.GetComponent<Character>();
             character.Construct(mover, characterHealth, characterHealth, dieable);
-            character.Init();
+            character.Initialize();
 
             return character;
         }

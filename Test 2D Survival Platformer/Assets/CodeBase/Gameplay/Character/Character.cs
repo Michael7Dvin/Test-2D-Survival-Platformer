@@ -12,7 +12,7 @@ namespace CodeBase.Gameplay.Character
     public class Character : MonoBehaviour
     {
         [Inject] private readonly IInputService _inputService;
-        
+            
         private IMover _mover;
         private IHealth _health;
         private IDamageable _damageable;
@@ -26,7 +26,7 @@ namespace CodeBase.Gameplay.Character
             _dieable = dieable;
         }
 
-        public async void Init()
+        public async void Initialize()
         {
             _inputService.HorizontalMoveInput
                 .Subscribe(xAxis => _mover.Move(new Vector2(xAxis, 0), Time.deltaTime))
