@@ -17,3 +17,18 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <CharacterHealth>k__BackingField:
+    m_AssetGUID: cb575f321186ef346aac15e14e9a7f5e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <Canvas>k__BackingField:
+    m_AssetGUID: 76de8b93b5f06da4e8e936aa71c6bcc5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <EventSystem>k__BackingField:
+    m_AssetGUID: 4f37edaeeab1ffd438a60b2e06b4b96e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
