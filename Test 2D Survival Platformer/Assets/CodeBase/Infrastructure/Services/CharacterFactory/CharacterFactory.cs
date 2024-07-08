@@ -1,4 +1,7 @@
 ﻿using CodeBase.Gameplay.Character;
+using CodeBase.Gameplay.Character.Death;
+using CodeBase.Gameplay.Character.Healths;
+using CodeBase.Gameplay.Character.Movement;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using Cysharp.Threading.Tasks;
@@ -12,7 +15,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private readonly IAddressablesLoader _addressablesLoader;
         private readonly PrefabAddresses _prefabAddresses;
         private readonly IInstantiator _instantiator;
-        private readonly GameConfig _gameConfig;
+        private readonly CharacterConfig _characterConfig;
 
         public CharacterFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
@@ -21,7 +24,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             _addressablesLoader = addressablesLoader;
             _prefabAddresses = staticDataProvider.PrefabAddresses;
             _instantiator = instantiator;
-            _gameConfig = staticDataProvider.GameConfig;
+            _characterConfig = staticDataProvider.CharacterConfig;
         }
 
         public async UniTask WarmUp() => 
@@ -36,15 +39,24 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
                 Quaternion.identity,
                 null);
             
-            Mover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
+            IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
+            CharacterHealth characterHealth = CreateHealth();
+            IDieable dieable = CreateDeath(characterGameObject);
             
             Character character = characterGameObject.GetComponent<Character>();
-            character.Construct(mover);
+            character.Construct(mover, characterHealth, characterHealth, dieable);
+            character.Initialize();
 
             return character;
         }
         
-        private Mover CreateMover(Rigidbody2D rigidbody) => 
-            new(_gameConfig.MoveSpeed, rigidbody);
+        private IMover CreateMover(Rigidbody2D rigidbody) => 
+            new Mover(_characterConfig.MoveSpeed, rigidbody);
+        
+        private CharacterHealth CreateHealth() => 
+            new (_characterConfig.MaxHealth);
+        
+        private static IDieable CreateDeath(Object characterObject) =>
+            new Death(characterObject);
     }
 }

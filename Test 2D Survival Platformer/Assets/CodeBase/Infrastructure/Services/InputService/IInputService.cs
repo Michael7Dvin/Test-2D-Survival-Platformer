@@ -4,6 +4,6 @@ namespace CodeBase.Infrastructure.Services.InputService
 {
     public interface IInputService
     {
-        ReactiveProperty<float> HorizontalMoveInput { get; }
+        IReadOnlyReactiveProperty<float> HorizontalMoveInput { get; }
     }
 }

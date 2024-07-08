@@ -8,6 +8,6 @@ namespace CodeBase.Infrastructure.Services.StaticDataProvider
     {
         SceneAddresses SceneAddresses { get; }
         PrefabAddresses PrefabAddresses { get; }
-        GameConfig GameConfig { get; }
+        CharacterConfig CharacterConfig { get; }
     }
 }

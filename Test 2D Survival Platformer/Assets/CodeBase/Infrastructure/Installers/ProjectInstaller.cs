@@ -5,6 +5,7 @@ using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States;
+using CodeBase.UI.Services;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +15,7 @@ namespace CodeBase.Infrastructure.Installers
     {
         [SerializeField] private SceneAddresses _sceneAddresses;
         [SerializeField] private PrefabAddresses _prefabAddresses;
-        [SerializeField] private GameConfig _gameConfig;
+        [SerializeField] private CharacterConfig _characterConfig;
         
         public override void InstallBindings()
         {
@@ -27,12 +28,14 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IStaticDataProvider>()
                 .To<StaticDataProvider>()
                 .AsSingle()
-                .WithArguments(_sceneAddresses, _prefabAddresses, _gameConfig);
+                .WithArguments(_sceneAddresses, _prefabAddresses, _characterConfig);
 
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+            
+            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
+            Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
         }
 
         private void BindGameStateMachine()
