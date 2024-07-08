@@ -35,15 +35,6 @@ namespace CodeBase.Infrastructure.StateMachine.States
             await _uiFactory.CreateEventSystem();
             await _uiFactory.CreateCharacterHealthView(character.Health);
             
-            await UniTask.Delay(1000);
-            character.Damageable.TakeDamage(10);
-            
-            await UniTask.Delay(1000);
-            character.Damageable.TakeDamage(50);
-            
-            await UniTask.Delay(1000);
-            character.Damageable.TakeDamage(20);
-            
             _gameStateMachine.EnterState<GameplayState>();
         }
 

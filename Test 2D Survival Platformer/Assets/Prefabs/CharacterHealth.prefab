@@ -126,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008f2bf0ec8843199b7e5b06f60f9cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _image: {fileID: 3076498010394011562}
+  _fillImage: {fileID: 3076498010394011562}
+  _heartTransform: {fileID: 5520678869234556370}
 --- !u!1 &5508035285660154820
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +231,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3322492301837640018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
