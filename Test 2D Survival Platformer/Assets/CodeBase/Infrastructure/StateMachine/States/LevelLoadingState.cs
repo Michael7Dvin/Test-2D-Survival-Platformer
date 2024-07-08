@@ -1,5 +1,8 @@
-﻿using CodeBase.Infrastructure.Services.CharacterFactory;
+﻿using CodeBase.Gameplay.Character;
+using CodeBase.Infrastructure.Services.CharacterFactory;
 using CodeBase.Infrastructure.Services.SceneLoader;
+using CodeBase.UI.Services;
+using Cysharp.Threading.Tasks;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -8,21 +11,39 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly IGameStateMachine _gameStateMachine;
         private readonly ISceneLoader _sceneLoader;
         private readonly ICharacterFactory _characterFactory;
+        private readonly IUIFactory _uiFactory;
 
         public LevelLoadingState(IGameStateMachine gameStateMachine,
             ISceneLoader sceneLoader,
-            ICharacterFactory characterFactory)
+            ICharacterFactory characterFactory,
+            IUIFactory uiFactory)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _characterFactory = characterFactory;
+            _uiFactory = uiFactory;
         }
 
         public async void Enter()
         {
             await _sceneLoader.LoadGameLevel();
             await _characterFactory.WarmUp();
-            await _characterFactory.Create();
+            Character character = await _characterFactory.Create();
+
+            await _uiFactory.WarmUp();
+            await _uiFactory.CreateCanvas();
+            await _uiFactory.CreateEventSystem();
+            await _uiFactory.CreateCharacterHealthView(character.Health);
+            
+            await UniTask.Delay(1000);
+            character.Damageable.TakeDamage(10);
+            
+            await UniTask.Delay(1000);
+            character.Damageable.TakeDamage(50);
+            
+            await UniTask.Delay(1000);
+            character.Damageable.TakeDamage(20);
+            
             _gameStateMachine.EnterState<GameplayState>();
         }
 

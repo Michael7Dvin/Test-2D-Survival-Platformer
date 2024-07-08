@@ -5,6 +5,7 @@ using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States;
+using CodeBase.UI.Services;
 using UnityEngine;
 using Zenject;
 
@@ -31,8 +32,10 @@ namespace CodeBase.Infrastructure.Installers
 
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
             Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+            
+            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
+            Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
         }
 
         private void BindGameStateMachine()

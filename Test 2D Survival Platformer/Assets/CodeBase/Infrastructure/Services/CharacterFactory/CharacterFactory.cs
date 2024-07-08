@@ -54,7 +54,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             new Mover(_characterConfig.MoveSpeed, rigidbody);
         
         private CharacterHealth CreateHealth() => 
-            new CharacterHealth(_characterConfig.MaxHealth);
+            new (_characterConfig.MaxHealth);
         
         private static IDieable CreateDeath(Object characterObject) =>
             new Death(characterObject);

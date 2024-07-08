@@ -1,8 +1,9 @@
-﻿using UniRx;
+﻿using CodeBase.Gameplay.Character.Healths;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CodeBase.Gameplay.Character.Healths
+namespace CodeBase.UI.CharacterHealth
 {
     public class CharacterHealthView : MonoBehaviour
     {
