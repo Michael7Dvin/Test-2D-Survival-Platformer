@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Character;
+using CodeBase.Gameplay.Character.CharacterAnimation;
 using CodeBase.Gameplay.Character.Death;
 using CodeBase.Gameplay.Character.Healths;
 using CodeBase.Gameplay.Character.Movement;
@@ -35,28 +36,33 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             GameObject characterPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
             
             GameObject characterGameObject = _instantiator.InstantiatePrefab(characterPrefab,
-                Vector3.zero,
+                _characterConfig.SpawnPoint,
                 Quaternion.identity,
                 null);
             
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
             CharacterHealth characterHealth = CreateHealth();
             IDieable dieable = CreateDeath(characterGameObject);
+            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponent<Animator>(), mover);
+            animator.Initialize();
             
             Character character = characterGameObject.GetComponent<Character>();
-            character.Construct(mover, characterHealth, characterHealth, dieable);
+            character.Construct(mover, characterHealth, characterHealth, dieable, animator);
             character.Initialize();
 
             return character;
         }
         
         private IMover CreateMover(Rigidbody2D rigidbody) => 
-            new Mover(_characterConfig.MoveSpeed, rigidbody);
+            new CharacterMover(_characterConfig.MoveSpeed, rigidbody);
         
         private CharacterHealth CreateHealth() => 
             new (_characterConfig.MaxHealth);
         
         private static IDieable CreateDeath(Object characterObject) =>
             new Death(characterObject);
+
+        private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover) => 
+            new CharacterAnimator(mover, animator);
     }
 }
