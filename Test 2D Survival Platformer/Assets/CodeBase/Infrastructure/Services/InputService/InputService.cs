@@ -8,7 +8,7 @@ namespace CodeBase.Infrastructure.Services.InputService
     {
         private const string HorizontalAxisName = "Horizontal";
         private readonly ReactiveProperty<float> _horizontalMoveInput = new();
-
+        
         public IReadOnlyReactiveProperty<float> HorizontalMoveInput => _horizontalMoveInput;
 
         public void Tick()

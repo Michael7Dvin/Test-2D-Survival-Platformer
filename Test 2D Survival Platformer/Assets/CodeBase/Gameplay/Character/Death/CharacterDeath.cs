@@ -4,12 +4,12 @@ using Object = UnityEngine.Object;
 
 namespace CodeBase.Gameplay.Character.Death
 {
-    public class Death : IDieable 
+    public class CharacterDeath : IDieable 
     {
         private readonly Subject<Unit> _died = new();
         private readonly Object _dyingEntityGameObject;
 
-        public Death(Object dyingEntityGameObject)
+        public CharacterDeath(Object dyingEntityGameObject)
         {
             _dyingEntityGameObject = dyingEntityGameObject;
         }
@@ -18,7 +18,6 @@ namespace CodeBase.Gameplay.Character.Death
         
         public void Die()
         {
-            Object.Destroy(_dyingEntityGameObject);            
             _died.OnNext(Unit.Default);
         }
     }

@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillImage: {fileID: 3076498010394011562}
-  _heartTransform: {fileID: 5520678869234556370}
 --- !u!1 &5508035285660154820
 GameObject:
   m_ObjectHideFlags: 0
