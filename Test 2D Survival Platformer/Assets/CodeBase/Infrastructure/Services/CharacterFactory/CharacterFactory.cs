@@ -35,7 +35,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             GameObject characterPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
             
             GameObject characterGameObject = _instantiator.InstantiatePrefab(characterPrefab,
-                Vector3.zero,
+                _characterConfig.SpawnPoint,
                 Quaternion.identity,
                 null);
             
