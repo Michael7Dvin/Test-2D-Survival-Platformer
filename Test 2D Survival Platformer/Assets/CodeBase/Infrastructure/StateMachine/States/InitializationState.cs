@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Device;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -15,6 +16,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         public async void Enter()
         {
+            Application.targetFrameRate = 60;
+            
             await Addressables.InitializeAsync();
             DOTween.Init();
             

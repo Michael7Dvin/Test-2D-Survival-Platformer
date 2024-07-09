@@ -31,14 +31,14 @@ namespace CodeBase.Gameplay.Character.Movement
                 return;
             }
             
+            _isMoving.Value = true;
+            
             Vector2 characterPosition = _rigidbody.position;
             Vector2 newPosition = characterPosition + direction * (_moveSpeed * deltaTime);
             
             FlipTowardMoveDirection(characterPosition, newPosition);
             
             _rigidbody.MovePosition(newPosition);
-            
-            _isMoving.Value = true;
         }
 
         private void FlipTowardMoveDirection(Vector2 characterPosition, Vector2 newPosition)

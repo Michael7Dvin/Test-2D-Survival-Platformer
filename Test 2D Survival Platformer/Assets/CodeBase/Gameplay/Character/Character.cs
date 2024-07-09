@@ -39,11 +39,14 @@ namespace CodeBase.Gameplay.Character
                 .Where(health => health <= 0)
                 .Subscribe(_ => _dieable.Die())
                 .AddTo(this);
-        }
 
-        private void FixedUpdate()
-        {
-            _mover.Move(new Vector2(_inputService.HorizontalMoveInput.Value, 0), Time.fixedDeltaTime);
+            _inputService.HorizontalMoveInput
+                .Subscribe(horizontalMoveInput =>
+                {
+                    _mover.Move(new Vector2(horizontalMoveInput, 0), Time.fixedDeltaTime);
+                })
+                .AddTo(this);
+
         }
     }
 }
