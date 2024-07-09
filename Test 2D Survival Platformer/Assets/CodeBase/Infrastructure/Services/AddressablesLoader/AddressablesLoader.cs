@@ -15,7 +15,7 @@ namespace CodeBase.Infrastructure.Services.AddressablesLoader
         {
             if (assetReference.RuntimeKeyIsValid() == false)
             {
-                Debug.LogError("Unable to load GameObject. AssetReference is null");
+                Debug.LogError($"Unable to load GameObject. AssetReference is null");
                 return null;
             }
 

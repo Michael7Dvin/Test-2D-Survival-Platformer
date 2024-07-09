@@ -1,5 +1,6 @@
 ﻿using CodeBase.Gameplay.Character.Healths;
 using CodeBase.UI.CharacterHealth;
+using CodeBase.UI.DeathWindow;
 using Cysharp.Threading.Tasks;
 
 namespace CodeBase.UI.Services
@@ -9,6 +10,9 @@ namespace CodeBase.UI.Services
         UniTask WarmUp();
         UniTask CreateCanvas();
         UniTask CreateEventSystem();
+        
         UniTask<CharacterHealthView> CreateCharacterHealthView(IHealth characterHealth);
+        UniTask<DeathWindowView> CreateDeathWindow();
+        
     }
 }

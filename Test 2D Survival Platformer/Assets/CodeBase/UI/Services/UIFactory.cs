@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.UI.CharacterHealth;
+using CodeBase.UI.DeathWindow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,6 +33,7 @@ namespace CodeBase.UI.Services
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Canvas);
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.EventSystem);
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.CharacterHealth);
+            await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.DeathWindowView);
         }
 
         public async UniTask CreateCanvas()
@@ -63,6 +65,22 @@ namespace CodeBase.UI.Services
             characterHealthView.Initialize();
 
             return characterHealthView;
+        }
+
+        public async UniTask<DeathWindowView> CreateDeathWindow()
+        {
+            if (ValidateCanvasAndEventSystem() == false) 
+                return null;
+
+            DeathWindowPresenter presenter = _instantiator.Instantiate<DeathWindowPresenter>();
+            
+            GameObject viewPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.DeathWindowView);
+            GameObject viewGameObject = _instantiator.InstantiatePrefab(viewPrefab, _canvas.transform);
+            
+            DeathWindowView view = viewGameObject.GetComponent<DeathWindowView>();
+            view.Construct(presenter);
+            
+            return view;
         }
 
         private bool ValidateCanvasAndEventSystem()

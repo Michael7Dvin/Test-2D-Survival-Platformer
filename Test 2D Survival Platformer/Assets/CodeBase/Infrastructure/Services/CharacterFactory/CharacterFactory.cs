@@ -5,6 +5,7 @@ using CodeBase.Gameplay.Character.Healths;
 using CodeBase.Gameplay.Character.Movement;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
+using CodeBase.UI.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -17,14 +18,17 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private readonly PrefabAddresses _prefabAddresses;
         private readonly IInstantiator _instantiator;
         private readonly CharacterConfig _characterConfig;
+        private readonly IUIFactory _uiFactory;
 
         public CharacterFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
-            IInstantiator instantiator)
+            IInstantiator instantiator,
+            IUIFactory uiFactory)
         {
             _addressablesLoader = addressablesLoader;
             _prefabAddresses = staticDataProvider.PrefabAddresses;
             _instantiator = instantiator;
+            _uiFactory = uiFactory;
             _characterConfig = staticDataProvider.CharacterConfig;
         }
 
@@ -61,8 +65,8 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private CharacterHealth CreateHealth() => 
             new (_characterConfig.MaxHealth);
         
-        private static IDieable CreateDeath(GameObject characterGameObject) =>
-            new CharacterDeath(characterGameObject);
+        private IDieable CreateDeath(GameObject characterGameObject) =>
+            new CharacterDeath(characterGameObject, _uiFactory);
 
         private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover, IDieable dieable) => 
             new CharacterAnimator(animator, mover, dieable);

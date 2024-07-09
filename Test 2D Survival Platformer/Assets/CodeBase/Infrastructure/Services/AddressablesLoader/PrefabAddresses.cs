@@ -8,9 +8,10 @@ namespace CodeBase.Infrastructure.Services.AddressablesLoader
     {
         [field: SerializeField] public AssetReferenceGameObject Character { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject Camera { get; private set; }
-        
-        [field: SerializeField] public AssetReferenceGameObject CharacterHealth { get; private set; }
+
         [field: SerializeField] public AssetReferenceGameObject Canvas { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject EventSystem { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject CharacterHealth { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject DeathWindowView { get; private set; }
     }
 }
