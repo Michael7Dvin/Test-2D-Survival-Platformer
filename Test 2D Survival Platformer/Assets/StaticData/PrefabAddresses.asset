@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <Camera>k__BackingField:
+    m_AssetGUID: 590e6c470877a5d4d8f69c7afe2fbdc6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   <CharacterHealth>k__BackingField:
     m_AssetGUID: cb575f321186ef346aac15e14e9a7f5e
     m_SubObjectName: 

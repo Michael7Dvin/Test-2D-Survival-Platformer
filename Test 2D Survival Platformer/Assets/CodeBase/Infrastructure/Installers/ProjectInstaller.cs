@@ -1,4 +1,5 @@
 ﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
+using CodeBase.Infrastructure.Services.CameraFactory;
 using CodeBase.Infrastructure.Services.CharacterFactory;
 using CodeBase.Infrastructure.Services.InputService;
 using CodeBase.Infrastructure.Services.SceneLoader;
@@ -36,6 +37,7 @@ namespace CodeBase.Infrastructure.Installers
             
             Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
             Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
+            Container.Bind<ICameraFactory>().To<CameraFactory>().AsSingle();
         }
 
         private void BindGameStateMachine()

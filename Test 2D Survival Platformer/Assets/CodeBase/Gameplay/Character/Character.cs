@@ -28,14 +28,13 @@ namespace CodeBase.Gameplay.Character
 
         public void Initialize()
         {
-            _inputService.HorizontalMoveInput
-                .Subscribe(xAxis => _mover.Move(new Vector2(xAxis, 0), Time.deltaTime))
-                .AddTo(this);
-            
             Health.CurrentHealth
                 .Where(health => health <= 0)
                 .Subscribe(_ => _dieable.Die())
                 .AddTo(this);
         }
+
+        private void FixedUpdate() => 
+            _mover.Move(new Vector2(_inputService.HorizontalMoveInput.Value, 0), Time.fixedDeltaTime);
     }
 }
