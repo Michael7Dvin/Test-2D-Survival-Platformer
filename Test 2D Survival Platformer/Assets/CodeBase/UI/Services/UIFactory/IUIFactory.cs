@@ -1,9 +1,9 @@
 ﻿using CodeBase.Gameplay.Character.Healths;
 using CodeBase.UI.CharacterHealth;
-using CodeBase.UI.DeathWindow;
+using CodeBase.UI.Windows.DeathWindow;
 using Cysharp.Threading.Tasks;
 
-namespace CodeBase.UI.Services
+namespace CodeBase.UI.Services.UIFactory
 {
     public interface IUIFactory
     {
@@ -12,7 +12,7 @@ namespace CodeBase.UI.Services
         UniTask CreateEventSystem();
         
         UniTask<CharacterHealthView> CreateCharacterHealthView(IHealth characterHealth);
-        UniTask<DeathWindowView> CreateDeathWindow();
+        UniTask<DeathWindowView> CreateDeathWindow(bool visible = false);
         
     }
 }

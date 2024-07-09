@@ -2,13 +2,13 @@
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.UI.CharacterHealth;
-using CodeBase.UI.DeathWindow;
+using CodeBase.UI.Windows.DeathWindow;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace CodeBase.UI.Services
+namespace CodeBase.UI.Services.UIFactory
 {
     public class UIFactory : IUIFactory
     {
@@ -67,7 +67,7 @@ namespace CodeBase.UI.Services
             return characterHealthView;
         }
 
-        public async UniTask<DeathWindowView> CreateDeathWindow()
+        public async UniTask<DeathWindowView> CreateDeathWindow(bool visible = false)
         {
             if (ValidateCanvasAndEventSystem() == false) 
                 return null;
@@ -76,6 +76,7 @@ namespace CodeBase.UI.Services
             
             GameObject viewPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.DeathWindowView);
             GameObject viewGameObject = _instantiator.InstantiatePrefab(viewPrefab, _canvas.transform);
+            viewGameObject.SetActive(visible);
             
             DeathWindowView view = viewGameObject.GetComponent<DeathWindowView>();
             view.Construct(presenter);

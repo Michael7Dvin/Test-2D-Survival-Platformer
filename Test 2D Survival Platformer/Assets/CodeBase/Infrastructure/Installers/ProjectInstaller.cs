@@ -7,6 +7,8 @@ using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States;
 using CodeBase.UI.Services;
+using CodeBase.UI.Services.UIFactory;
+using CodeBase.UI.Services.WindowService;
 using UnityEngine;
 using Zenject;
 
@@ -38,6 +40,8 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
             Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
             Container.Bind<ICameraFactory>().To<CameraFactory>().AsSingle();
+
+            Container.Bind<IWindowService>().To<WindowService>().AsSingle();
         }
 
         private void BindGameStateMachine()

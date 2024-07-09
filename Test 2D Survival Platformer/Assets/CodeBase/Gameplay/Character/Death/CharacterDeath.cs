@@ -1,5 +1,7 @@
 ﻿using System;
-using CodeBase.UI.Services;
+using CodeBase.UI.Services.UIFactory;
+using CodeBase.UI.Services.WindowService;
+using CodeBase.UI.Windows;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
@@ -11,14 +13,14 @@ namespace CodeBase.Gameplay.Character.Death
     {
         private readonly Subject<Unit> _died = new();
         private readonly GameObject _characterGameObject;
-        private readonly IUIFactory _uiFactory;
+        private readonly IWindowService _windowService;
 
         private Tweener _shrinkTweener;
 
-        public CharacterDeath(GameObject characterGameObject, IUIFactory uiFactory)
+        public CharacterDeath(GameObject characterGameObject, IWindowService windowService)
         {
             _characterGameObject = characterGameObject;
-            _uiFactory = uiFactory;
+            _windowService = windowService;
         }
 
         public IObservable<Unit> Died => _died;
@@ -39,7 +41,8 @@ namespace CodeBase.Gameplay.Character.Death
             await _shrinkTweener.AwaitForComplete();
             
             _died.OnNext(Unit.Default);
-            await _uiFactory.CreateDeathWindow();
+            
+            _windowService.ShowWindow(WindowID.DeathWindow);
         }
     }
 }

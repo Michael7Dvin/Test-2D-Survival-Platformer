@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CodeBase.UI.DeathWindow
+namespace CodeBase.UI.Windows.DeathWindow
 {
     public class DeathWindowPresenter
     {

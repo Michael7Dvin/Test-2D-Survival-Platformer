@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace CodeBase.UI.DeathWindow
+﻿namespace CodeBase.UI.Windows.DeathWindow
 {
-    public class DeathWindowView : MonoBehaviour
+    public class DeathWindowView : BaseWindowView
     {
         private DeathWindowPresenter _presenter; 
         
