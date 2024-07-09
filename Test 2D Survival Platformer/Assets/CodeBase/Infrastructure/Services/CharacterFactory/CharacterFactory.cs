@@ -51,7 +51,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         }
         
         private IMover CreateMover(Rigidbody2D rigidbody) => 
-            new Mover(_characterConfig.MoveSpeed, rigidbody);
+            new CharacterMover(_characterConfig.MoveSpeed, rigidbody);
         
         private CharacterHealth CreateHealth() => 
             new (_characterConfig.MaxHealth);
