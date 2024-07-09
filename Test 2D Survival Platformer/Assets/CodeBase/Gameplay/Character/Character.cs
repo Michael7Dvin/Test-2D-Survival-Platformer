@@ -1,4 +1,5 @@
-﻿using CodeBase.Gameplay.Character.Death;
+﻿using CodeBase.Gameplay.Character.CharacterAnimation;
+using CodeBase.Gameplay.Character.Death;
 using CodeBase.Gameplay.Character.Healths;
 using CodeBase.Gameplay.Character.Movement;
 using CodeBase.Infrastructure.Services.InputService;
@@ -14,13 +15,19 @@ namespace CodeBase.Gameplay.Character
             
         private IMover _mover;
         private IDieable _dieable;
+        private ICharacterAnimator _animator;
 
-        public void Construct(IMover mover, IHealth health, IDamageable damageable, IDieable dieable)
+        public void Construct(IMover mover,
+            IHealth health,
+            IDamageable damageable,
+            IDieable dieable,
+            ICharacterAnimator animator)
         {
             _mover = mover;
             Health = health;
             Damageable = damageable;
             _dieable = dieable;
+            _animator = animator;
         }
         
         public IDamageable Damageable { get; private set; }
@@ -34,7 +41,9 @@ namespace CodeBase.Gameplay.Character
                 .AddTo(this);
         }
 
-        private void FixedUpdate() => 
+        private void FixedUpdate()
+        {
             _mover.Move(new Vector2(_inputService.HorizontalMoveInput.Value, 0), Time.fixedDeltaTime);
+        }
     }
 }

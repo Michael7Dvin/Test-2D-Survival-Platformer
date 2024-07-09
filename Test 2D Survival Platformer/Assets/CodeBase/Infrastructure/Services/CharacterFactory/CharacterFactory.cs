@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Character;
+using CodeBase.Gameplay.Character.CharacterAnimation;
 using CodeBase.Gameplay.Character.Death;
 using CodeBase.Gameplay.Character.Healths;
 using CodeBase.Gameplay.Character.Movement;
@@ -42,9 +43,11 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
             CharacterHealth characterHealth = CreateHealth();
             IDieable dieable = CreateDeath(characterGameObject);
+            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponent<Animator>(), mover);
+            animator.Initialize();
             
             Character character = characterGameObject.GetComponent<Character>();
-            character.Construct(mover, characterHealth, characterHealth, dieable);
+            character.Construct(mover, characterHealth, characterHealth, dieable, animator);
             character.Initialize();
 
             return character;
@@ -58,5 +61,8 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         
         private static IDieable CreateDeath(Object characterObject) =>
             new Death(characterObject);
+
+        private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover) => 
+            new CharacterAnimator(mover, animator);
     }
 }
