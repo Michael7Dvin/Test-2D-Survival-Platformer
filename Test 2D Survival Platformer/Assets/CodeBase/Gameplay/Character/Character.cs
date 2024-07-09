@@ -46,7 +46,6 @@ namespace CodeBase.Gameplay.Character
                     _mover.Move(new Vector2(horizontalMoveInput, 0), Time.fixedDeltaTime);
                 })
                 .AddTo(this);
-
         }
 
         private void Update()

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7ebdde934b40bba6769807f4982af7, type: 3}
   m_Name: CharacterConfig
   m_EditorClassIdentifier: 
-  <SpawnPoint>k__BackingField: {x: 13, y: -7.21, z: 0}
+  <SpawnPoint>k__BackingField: {x: 13, y: -8, z: 0}
   <MoveSpeed>k__BackingField: 8
   <MaxHealth>k__BackingField: 100

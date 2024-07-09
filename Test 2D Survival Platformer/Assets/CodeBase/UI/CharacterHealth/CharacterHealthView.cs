@@ -14,7 +14,7 @@ namespace CodeBase.UI.CharacterHealth
 
         private bool _isAnimationPlaying;
         private Sequence _fadeSequence;
-        private Tweener _fillAmountTween;
+        private Tweener _fillAmountTweener;
 
         public void Construct(IHealth health)
         {
@@ -39,7 +39,7 @@ namespace CodeBase.UI.CharacterHealth
                 .SetUpdate(true)
                 .Pause();
             
-            _fillAmountTween = _fillImage
+            _fillAmountTweener = _fillImage
                 .DOFillAmount(1f, 0.2f)
                 .SetAutoKill(false)
                 .SetUpdate(true)
@@ -52,14 +52,14 @@ namespace CodeBase.UI.CharacterHealth
             await _fadeSequence.AwaitForComplete();
             
             UpdateFillAmountTweenValues();
-            _fillAmountTween.Restart();
-            await _fillAmountTween.AwaitForComplete();
+            _fillAmountTweener.Restart();
+            await _fillAmountTweener.AwaitForComplete();
         }
 
         private void UpdateFillAmountTweenValues()
         {
             float targetFillAmount = _health.CurrentHealth.Value / _health.MaxHealth;
-            _fillAmountTween.ChangeStartValue(_fillImage.fillAmount).ChangeEndValue(targetFillAmount);
+            _fillAmountTweener.ChangeStartValue(_fillImage.fillAmount).ChangeEndValue(targetFillAmount);
         }
     }
 }
