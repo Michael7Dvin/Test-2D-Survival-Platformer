@@ -8,7 +8,7 @@ namespace CodeBase.Gameplay.Character.CharacterAnimation
     public class CharacterAnimator : ICharacterAnimator
     {
         private readonly int _isMovingHash = Animator.StringToHash("IsMoving");
-        private readonly int _dieHash = Animator.StringToHash("Die");
+        private readonly int _isDeadHash = Animator.StringToHash("IsDead");
 
         private readonly Animator _animator;
         private readonly IMover _mover;
@@ -27,8 +27,8 @@ namespace CodeBase.Gameplay.Character.CharacterAnimation
                 .Subscribe(isMoving => _animator.SetBool(_isMovingHash, isMoving))
                 .AddTo(_animator.gameObject);
 
-            _dieable.Died
-                .Subscribe(_ => _animator.SetTrigger(_dieHash))
+            _dieable.IsDead
+                .Subscribe(isDead => _animator.SetBool(_isDeadHash, isDead))
                 .AddTo(_animator.gameObject);
         }
     }

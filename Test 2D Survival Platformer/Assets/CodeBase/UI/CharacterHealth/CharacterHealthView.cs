@@ -1,4 +1,5 @@
-﻿using CodeBase.Gameplay.Character.Healths;
+﻿using System.Threading.Tasks;
+using CodeBase.Gameplay.Character.Healths;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
@@ -25,11 +26,30 @@ namespace CodeBase.UI.CharacterHealth
         {
             CreateTweens();
 
+            SubscribeOnHealthIncreased();
+            SubscribeOnHealthDecreased();
+        }
+
+        private void SubscribeOnHealthDecreased()
+        {
             _health.CurrentHealth
+                .Pairwise()
+                .Where(pair => pair.Current < pair.Previous)
+                .Select(pair => pair.Current)
                 .Subscribe(_ => OnDamaged().Forget())
                 .AddTo(this);
         }
         
+        private void SubscribeOnHealthIncreased()
+        {
+            _health.CurrentHealth
+                .Pairwise()
+                .Where(pair => pair.Current > pair.Previous)
+                .Select(pair => pair.Current)
+                .Subscribe(_ => OnHealed().Forget())
+                .AddTo(this);
+        }
+
         private void CreateTweens()
         {
             _fadeSequence = DOTween.Sequence()
@@ -46,11 +66,21 @@ namespace CodeBase.UI.CharacterHealth
                 .Pause();
         }
 
+        private async UniTaskVoid OnHealed()
+        {
+            await RestartFillAmountTweener();
+        }
+
         private async UniTaskVoid OnDamaged()
         {
             _fadeSequence.Restart();
             await _fadeSequence.AwaitForComplete();
             
+            await RestartFillAmountTweener();
+        }
+
+        private async Task RestartFillAmountTweener()
+        {
             UpdateFillAmountTweenValues();
             _fillAmountTweener.Restart();
             await _fillAmountTweener.AwaitForComplete();

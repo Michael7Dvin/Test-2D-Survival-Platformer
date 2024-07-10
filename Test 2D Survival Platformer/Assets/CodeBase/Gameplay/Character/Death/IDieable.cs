@@ -1,14 +1,14 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UniRx;
 
 namespace CodeBase.Gameplay.Character.Death
 {
     public interface IDieable
     {
-        IObservable<Unit> Died { get; }
+        IReadOnlyReactiveProperty<bool> IsDead { get; }
 
         void Initialize();
         UniTaskVoid Die();
+        void AbortDeath();
     }
 }

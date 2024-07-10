@@ -11,18 +11,18 @@ namespace CodeBase.Infrastructure
         public Bootstrapper(IGameStateMachine stateMachine,
             InitializationState initializationState,
             LevelLoadingState levelLoadingState,
-            GameplayState gameplayState)
+            GameplayState gameplayState,
+            RestartState restartState)
         {
             _stateMachine = stateMachine;
 
             _stateMachine.AddState(initializationState);
             _stateMachine.AddState(levelLoadingState);
             _stateMachine.AddState(gameplayState);
+            _stateMachine.AddState(restartState);
         }
 
-        public void Initialize()
-        {
+        public void Initialize() => 
             _stateMachine.EnterState<InitializationState>();
-        }
     }
 }

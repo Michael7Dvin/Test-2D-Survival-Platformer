@@ -1,7 +1,9 @@
 ﻿using CodeBase.Gameplay.Character;
 using CodeBase.Infrastructure.Services.CameraFactory;
 using CodeBase.Infrastructure.Services.CharacterFactory;
+using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.SceneLoader;
+using CodeBase.Infrastructure.StateMachine.States.Base;
 using CodeBase.UI.Services;
 using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
@@ -18,13 +20,15 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly IUIFactory _uiFactory;
         private readonly ICameraFactory _cameraFactory;
         private readonly IWindowService _windowService;
+        private readonly ICharacterProvider _characterProvider;
 
         public LevelLoadingState(IGameStateMachine gameStateMachine,
             ISceneLoader sceneLoader,
             ICharacterFactory characterFactory,
             IUIFactory uiFactory,
             ICameraFactory cameraFactory,
-            IWindowService windowService)
+            IWindowService windowService,
+            ICharacterProvider characterProvider)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -32,6 +36,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _uiFactory = uiFactory;
             _cameraFactory = cameraFactory;
             _windowService = windowService;
+            _characterProvider = characterProvider;
         }
 
         public async void Enter()
@@ -39,7 +44,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             await _sceneLoader.LoadGameLevel();
             await _characterFactory.WarmUp();
             ICharacter character = await _characterFactory.Create();
-
+            _characterProvider.Set(character);
+            
             await _cameraFactory.WarmUp();
             await _cameraFactory.Create(character.GameObject.transform);
             
@@ -51,7 +57,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             DeathWindowView deathWindowView = await _uiFactory.CreateDeathWindow();
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
-            _gameStateMachine.EnterState<GameplayState, ICharacter>(character);
+            _gameStateMachine.EnterState<GameplayState>();
         }
 
         public void Exit()

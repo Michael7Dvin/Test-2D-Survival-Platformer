@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.StateMachine.States;
+using CodeBase.Infrastructure.StateMachine.States.Base;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine

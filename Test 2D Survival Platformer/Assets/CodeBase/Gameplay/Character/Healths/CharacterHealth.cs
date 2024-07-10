@@ -16,7 +16,7 @@ namespace CodeBase.Gameplay.Character.Healths
         public float MaxHealth { get; }
         public IReadOnlyReactiveProperty<float> CurrentHealth => _currentHealth;
         
-        public void ResetCurrentToMaxHealth() => 
+        public void ResetToMaxHealth() => 
             _currentHealth.Value = MaxHealth;
 
         public void TakeDamage(float damage)

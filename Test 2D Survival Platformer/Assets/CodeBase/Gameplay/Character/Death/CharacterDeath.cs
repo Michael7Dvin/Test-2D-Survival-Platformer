@@ -9,7 +9,7 @@ namespace CodeBase.Gameplay.Character.Death
 {
     public class CharacterDeath : IDieable 
     {
-        private readonly Subject<Unit> _died = new();
+        private readonly ReactiveProperty<bool> _isDead = new();
         private readonly GameObject _characterGameObject;
         private readonly IMover _characterMover;
 
@@ -21,7 +21,7 @@ namespace CodeBase.Gameplay.Character.Death
             _characterMover = characterMover;
         }
 
-        public IObservable<Unit> Died => _died;
+        public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
 
         public void Initialize()
         {
@@ -35,12 +35,23 @@ namespace CodeBase.Gameplay.Character.Death
         {
             _characterMover.Enabled = false;
             
-            float targetScaleX = Mathf.Sign(_characterGameObject.transform.localScale.x) * 0.5f;
+            Vector3 currentScale = _characterGameObject.transform.localScale;
+            float targetScaleX = Mathf.Sign(currentScale.x) * 0.5f;
 
-            _shrinkTweener.ChangeEndValue(new Vector3(targetScaleX,0.5f)).Restart();
-            await _shrinkTweener.AwaitForComplete();
+            _shrinkTweener
+                .ChangeStartValue(currentScale)
+                .ChangeEndValue(new Vector3(targetScaleX,0.5f))
+                .Restart();
             
-            _died.OnNext(Unit.Default);
+            await _shrinkTweener.AwaitForComplete();
+
+            _isDead.Value = true;
+        }
+
+        public void AbortDeath()
+        {
+            _characterGameObject.transform.localScale = Vector3.one;
+            _isDead.Value = false;
         }
     }
 }
