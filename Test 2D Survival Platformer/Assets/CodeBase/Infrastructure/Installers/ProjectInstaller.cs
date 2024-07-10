@@ -1,12 +1,14 @@
 ﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.CameraFactory;
 using CodeBase.Infrastructure.Services.CharacterFactory;
+using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.InputService;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States;
-using CodeBase.UI.Services;
+using CodeBase.UI.Services.UIFactory;
+using CodeBase.UI.Services.WindowService;
 using UnityEngine;
 using Zenject;
 
@@ -38,6 +40,9 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
             Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
             Container.Bind<ICameraFactory>().To<CameraFactory>().AsSingle();
+
+            Container.Bind<IWindowService>().To<WindowService>().AsSingle();
+            Container.Bind<ICharacterProvider>().To<CharacterProvider>().AsSingle();
         }
 
         private void BindGameStateMachine()
@@ -46,6 +51,7 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<InitializationState>().AsSingle();
             Container.Bind<LevelLoadingState>().AsSingle();
             Container.Bind<GameplayState>().AsSingle();
+            Container.Bind<RestartState>().AsSingle();
         }
     }
 }

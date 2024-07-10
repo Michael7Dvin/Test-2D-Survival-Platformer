@@ -31,7 +31,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         public async UniTask WarmUp() => 
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
 
-        public async UniTask<Character> Create()
+        public async UniTask<ICharacter> Create()
         {
             GameObject characterPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
             
@@ -42,11 +42,13 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
             CharacterHealth characterHealth = CreateHealth();
-            IDieable dieable = CreateDeath(characterGameObject);
-            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponent<Animator>(), mover);
+            IDieable dieable = CreateDeath(characterGameObject, mover);
+            dieable.Initialize();
+            
+            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponentInChildren<Animator>(), mover, dieable);
             animator.Initialize();
             
-            Character character = characterGameObject.GetComponent<Character>();
+            ICharacter character = characterGameObject.GetComponent<ICharacter>();
             character.Construct(mover, characterHealth, characterHealth, dieable, animator);
             character.Initialize();
 
@@ -59,10 +61,10 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private CharacterHealth CreateHealth() => 
             new (_characterConfig.MaxHealth);
         
-        private static IDieable CreateDeath(Object characterObject) =>
-            new Death(characterObject);
+        private static IDieable CreateDeath(GameObject characterGameObject, IMover mover) =>
+            new CharacterDeath(characterGameObject, mover);
 
-        private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover) => 
-            new CharacterAnimator(mover, animator);
+        private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover, IDieable dieable) => 
+            new CharacterAnimator(animator, mover, dieable);
     }
 }

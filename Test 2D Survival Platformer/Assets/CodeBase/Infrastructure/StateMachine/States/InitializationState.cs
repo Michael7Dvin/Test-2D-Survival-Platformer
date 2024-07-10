@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using CodeBase.Infrastructure.StateMachine.States.Base;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Device;

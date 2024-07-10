@@ -18,6 +18,7 @@ namespace CodeBase.Gameplay.Character.Movement
             _transform = rigidbody.transform;
         }
 
+        public bool Enabled { get; set; }
         public IReadOnlyReactiveProperty<bool> IsMoving => _isMoving;
 
         private bool IsFacingRight => 
@@ -25,7 +26,7 @@ namespace CodeBase.Gameplay.Character.Movement
 
         public void Move(Vector2 direction, float deltaTime)
         {
-            if (direction == Vector2.zero)
+            if (Enabled == false || direction == Vector2.zero)
             {
                 _isMoving.Value = false;
                 return;
