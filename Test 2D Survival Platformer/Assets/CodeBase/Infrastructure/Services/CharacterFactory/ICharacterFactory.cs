@@ -6,6 +6,6 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
     public interface ICharacterFactory
     {
         UniTask WarmUp();
-        UniTask<Character> Create();
+        UniTask<ICharacter> Create();
     }
 }

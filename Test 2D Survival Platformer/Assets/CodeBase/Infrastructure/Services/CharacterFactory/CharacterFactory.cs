@@ -5,9 +5,6 @@ using CodeBase.Gameplay.Character.Healths;
 using CodeBase.Gameplay.Character.Movement;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
-using CodeBase.UI.Services;
-using CodeBase.UI.Services.UIFactory;
-using CodeBase.UI.Services.WindowService;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -20,24 +17,21 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private readonly PrefabAddresses _prefabAddresses;
         private readonly IInstantiator _instantiator;
         private readonly CharacterConfig _characterConfig;
-        private readonly IWindowService _windowService;
 
         public CharacterFactory(IAddressablesLoader addressablesLoader,
             IStaticDataProvider staticDataProvider,
-            IInstantiator instantiator,
-            IWindowService windowService)
+            IInstantiator instantiator)
         {
             _addressablesLoader = addressablesLoader;
             _prefabAddresses = staticDataProvider.PrefabAddresses;
             _instantiator = instantiator;
-            _windowService = windowService;
             _characterConfig = staticDataProvider.CharacterConfig;
         }
 
         public async UniTask WarmUp() => 
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
 
-        public async UniTask<Character> Create()
+        public async UniTask<ICharacter> Create()
         {
             GameObject characterPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Character);
             
@@ -48,13 +42,13 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
             
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
             CharacterHealth characterHealth = CreateHealth();
-            IDieable dieable = CreateDeath(characterGameObject);
+            IDieable dieable = CreateDeath(characterGameObject, mover);
             dieable.Initialize();
             
             ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponentInChildren<Animator>(), mover, dieable);
             animator.Initialize();
             
-            Character character = characterGameObject.GetComponent<Character>();
+            ICharacter character = characterGameObject.GetComponent<ICharacter>();
             character.Construct(mover, characterHealth, characterHealth, dieable, animator);
             character.Initialize();
 
@@ -67,8 +61,8 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private CharacterHealth CreateHealth() => 
             new (_characterConfig.MaxHealth);
         
-        private IDieable CreateDeath(GameObject characterGameObject) =>
-            new CharacterDeath(characterGameObject, _windowService);
+        private static IDieable CreateDeath(GameObject characterGameObject, IMover mover) =>
+            new CharacterDeath(characterGameObject, mover);
 
         private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover, IDieable dieable) => 
             new CharacterAnimator(animator, mover, dieable);

@@ -38,10 +38,10 @@ namespace CodeBase.Infrastructure.StateMachine.States
         {
             await _sceneLoader.LoadGameLevel();
             await _characterFactory.WarmUp();
-            Character character = await _characterFactory.Create();
+            ICharacter character = await _characterFactory.Create();
 
             await _cameraFactory.WarmUp();
-            await _cameraFactory.Create(character.transform);
+            await _cameraFactory.Create(character.GameObject.transform);
             
             await _uiFactory.WarmUp();
             await _uiFactory.CreateCanvas();
@@ -51,7 +51,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             DeathWindowView deathWindowView = await _uiFactory.CreateDeathWindow();
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
-            _gameStateMachine.EnterState<GameplayState>();
+            _gameStateMachine.EnterState<GameplayState, ICharacter>(character);
         }
 
         public void Exit()
