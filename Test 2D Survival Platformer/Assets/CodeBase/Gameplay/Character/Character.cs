@@ -1,7 +1,7 @@
-﻿using CodeBase.Gameplay.Character.CharacterAnimation;
-using CodeBase.Gameplay.Character.Death;
-using CodeBase.Gameplay.Character.Healths;
-using CodeBase.Gameplay.Character.Movement;
+﻿using CodeBase.Gameplay.Components.Animator;
+using CodeBase.Gameplay.Components.Death;
+using CodeBase.Gameplay.Components.Healths;
+using CodeBase.Gameplay.Components.Movement;
 using CodeBase.Infrastructure.Services.InputService;
 using UniRx;
 using UnityEngine;

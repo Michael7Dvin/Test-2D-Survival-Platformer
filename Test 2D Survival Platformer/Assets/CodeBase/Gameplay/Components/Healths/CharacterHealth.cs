@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace CodeBase.Gameplay.Character.Healths
+namespace CodeBase.Gameplay.Components.Healths
 {
     public class CharacterHealth : MonoBehaviour, IHealth, IDamageable
     {

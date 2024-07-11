@@ -7,6 +7,7 @@ using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States;
+using CodeBase.StaticData;
 using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
 using UnityEngine;

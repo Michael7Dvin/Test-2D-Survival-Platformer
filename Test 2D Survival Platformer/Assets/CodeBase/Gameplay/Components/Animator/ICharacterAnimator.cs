@@ -1,4 +1,4 @@
-﻿namespace CodeBase.Gameplay.Character.CharacterAnimation
+﻿namespace CodeBase.Gameplay.Components.Animator
 {
     public interface ICharacterAnimator
     {

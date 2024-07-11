@@ -1,20 +1,19 @@
-﻿using CodeBase.Gameplay.Character.Death;
-using CodeBase.Gameplay.Character.Movement;
+﻿using CodeBase.Gameplay.Components.Death;
+using CodeBase.Gameplay.Components.Movement;
 using UniRx;
-using UnityEngine;
 
-namespace CodeBase.Gameplay.Character.CharacterAnimation
+namespace CodeBase.Gameplay.Components.Animator
 {
     public class CharacterAnimator : ICharacterAnimator
     {
-        private readonly int _isMovingHash = Animator.StringToHash("IsMoving");
-        private readonly int _isDeadHash = Animator.StringToHash("IsDead");
+        private readonly int _isMovingHash = UnityEngine.Animator.StringToHash("IsMoving");
+        private readonly int _isDeadHash = UnityEngine.Animator.StringToHash("IsDead");
 
-        private readonly Animator _animator;
+        private readonly UnityEngine.Animator _animator;
         private readonly IMover _mover;
         private readonly IDieable _dieable;
 
-        public CharacterAnimator(Animator animator, IMover mover, IDieable dieable)
+        public CharacterAnimator(UnityEngine.Animator animator, IMover mover, IDieable dieable)
         {
             _animator = animator;
             _mover = mover;

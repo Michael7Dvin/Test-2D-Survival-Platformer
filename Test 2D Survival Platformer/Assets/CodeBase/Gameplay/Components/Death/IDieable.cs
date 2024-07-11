@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UniRx;
 
-namespace CodeBase.Gameplay.Character.Death
+namespace CodeBase.Gameplay.Components.Death
 {
     public interface IDieable
     {

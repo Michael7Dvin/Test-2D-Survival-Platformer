@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace CodeBase.Gameplay.Character.Movement
+namespace CodeBase.Gameplay.Components.Movement
 {
     public class CharacterMover : IMover
     {

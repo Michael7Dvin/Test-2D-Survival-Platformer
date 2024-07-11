@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CodeBase.Infrastructure.Services.CharacterFactory
+namespace CodeBase.StaticData
 {
     [CreateAssetMenu(menuName = "StaticData/Configs/Character", fileName = "CharacterConfig")]
     public class CharacterConfig : ScriptableObject

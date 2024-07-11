@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CodeBase.Gameplay.Character.Healths;
+using CodeBase.Gameplay.Components.Healths;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;

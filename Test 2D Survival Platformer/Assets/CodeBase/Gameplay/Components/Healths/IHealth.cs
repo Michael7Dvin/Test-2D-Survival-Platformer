@@ -1,6 +1,6 @@
 ﻿using UniRx;
 
-namespace CodeBase.Gameplay.Character.Healths
+namespace CodeBase.Gameplay.Components.Healths
 {
     public interface IHealth
     {

@@ -1,11 +1,10 @@
-﻿using System;
-using CodeBase.Gameplay.Character.Movement;
+﻿using CodeBase.Gameplay.Components.Movement;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
-namespace CodeBase.Gameplay.Character.Death
+namespace CodeBase.Gameplay.Components.Death
 {
     public class CharacterDeath : IDieable 
     {

@@ -22,6 +22,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <Projectile>k__BackingField:
+    m_AssetGUID: 6be374a76fdce9a4d83f8adfb2d273b7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   <Canvas>k__BackingField:
     m_AssetGUID: 76de8b93b5f06da4e8e936aa71c6bcc5
     m_SubObjectName: 

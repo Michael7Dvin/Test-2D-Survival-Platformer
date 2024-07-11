@@ -1,5 +1,6 @@
 ﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
+using CodeBase.StaticData;
 using Cysharp.Threading.Tasks;
 
 namespace CodeBase.Infrastructure.Services.SceneLoader
