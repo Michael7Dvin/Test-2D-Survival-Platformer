@@ -1,6 +1,6 @@
 ﻿using CodeBase.Gameplay.Character;
-using CodeBase.Infrastructure.Services.CameraFactory;
-using CodeBase.Infrastructure.Services.CharacterFactory;
+using CodeBase.Infrastructure.Factories.CameraFactory;
+using CodeBase.Infrastructure.Factories.CharacterFactory;
 using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.StateMachine.States.Base;

@@ -1,6 +1,6 @@
-﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
-using CodeBase.Infrastructure.Services.CameraFactory;
-using CodeBase.Infrastructure.Services.CharacterFactory;
+﻿using CodeBase.Infrastructure.Factories.CameraFactory;
+using CodeBase.Infrastructure.Factories.CharacterFactory;
+using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.InputService;
 using CodeBase.Infrastructure.Services.SceneLoader;
@@ -20,6 +20,7 @@ namespace CodeBase.Infrastructure.Installers
         [SerializeField] private SceneAddresses _sceneAddresses;
         [SerializeField] private PrefabAddresses _prefabAddresses;
         [SerializeField] private CharacterConfig _characterConfig;
+        [SerializeField] private ProjectilesConfig _projectilesConfig; 
         
         public override void InstallBindings()
         {
@@ -32,7 +33,7 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IStaticDataProvider>()
                 .To<StaticDataProvider>()
                 .AsSingle()
-                .WithArguments(_sceneAddresses, _prefabAddresses, _characterConfig);
+                .WithArguments(_sceneAddresses, _prefabAddresses, _characterConfig, _projectilesConfig);
 
             Container.Bind<IAddressablesLoader>().To<AddressablesLoader>().AsSingle();
             Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();

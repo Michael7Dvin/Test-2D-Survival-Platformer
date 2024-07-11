@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace CodeBase.Infrastructure.Services.CameraFactory
+namespace CodeBase.Infrastructure.Factories.CameraFactory
 {
     public class CameraFactory : ICameraFactory
     {

@@ -1,7 +1,7 @@
 ﻿using CodeBase.Gameplay.Character;
 using Cysharp.Threading.Tasks;
 
-namespace CodeBase.Infrastructure.Services.CharacterFactory
+namespace CodeBase.Infrastructure.Factories.CharacterFactory
 {
     public interface ICharacterFactory
     {

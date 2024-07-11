@@ -10,7 +10,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace CodeBase.Infrastructure.Services.CharacterFactory
+namespace CodeBase.Infrastructure.Factories.CharacterFactory
 {
     public class CharacterFactory : ICharacterFactory
     {

@@ -1,7 +1,4 @@
-﻿using CodeBase.Infrastructure.Services.AddressablesLoader;
-using CodeBase.Infrastructure.Services.CharacterFactory;
-using CodeBase.Infrastructure.Services.SceneLoader;
-using CodeBase.StaticData;
+﻿using CodeBase.StaticData;
 
 namespace CodeBase.Infrastructure.Services.StaticDataProvider
 {
@@ -10,5 +7,6 @@ namespace CodeBase.Infrastructure.Services.StaticDataProvider
         SceneAddresses SceneAddresses { get; }
         PrefabAddresses PrefabAddresses { get; }
         CharacterConfig CharacterConfig { get; }
+        ProjectilesConfig ProjectilesConfig { get; }
     }
 }
