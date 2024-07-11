@@ -50,11 +50,5 @@ namespace CodeBase.Gameplay.Character
                 })
                 .AddTo(this);
         }
-
-        private void Update()
-        {
-            if (Input.GetKey(KeyCode.Q))
-                Damageable.TakeDamage(100f);
-        }
     }
 }

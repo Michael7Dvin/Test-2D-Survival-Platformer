@@ -41,7 +41,7 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
                 null);
             
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
-            CharacterHealth characterHealth = CreateHealth();
+            CharacterHealth characterHealth = CreateHealth(characterGameObject);
             IDieable dieable = CreateDeath(characterGameObject, mover);
             dieable.Initialize();
             
@@ -58,9 +58,13 @@ namespace CodeBase.Infrastructure.Services.CharacterFactory
         private IMover CreateMover(Rigidbody2D rigidbody) => 
             new CharacterMover(_characterConfig.MoveSpeed, rigidbody);
         
-        private CharacterHealth CreateHealth() => 
-            new (_characterConfig.MaxHealth);
-        
+        private CharacterHealth CreateHealth(GameObject characterGameObject)
+        {
+            CharacterHealth characterHealth = characterGameObject.GetComponentInChildren<CharacterHealth>();    
+            characterHealth.Construct(_characterConfig.MaxHealth);
+            return characterHealth;
+        }
+
         private static IDieable CreateDeath(GameObject characterGameObject, IMover mover) =>
             new CharacterDeath(characterGameObject, mover);
 
