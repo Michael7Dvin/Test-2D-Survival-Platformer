@@ -7,6 +7,7 @@ namespace CodeBase.Infrastructure.Services.StaticDataProvider
         SceneAddresses SceneAddresses { get; }
         PrefabAddresses PrefabAddresses { get; }
         CharacterConfig CharacterConfig { get; }
-        ProjectilesConfig ProjectilesConfig { get; }
+        ProjectileConfig ProjectileConfig { get; }
+        ProjectileSpawnerConfig ProjectileSpawnerConfig { get; }
     }
 }

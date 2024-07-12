@@ -6,6 +6,6 @@ namespace CodeBase.Infrastructure.Factories.CameraFactory
     public interface ICameraFactory
     {
         UniTask WarmUp();
-        UniTask Create(Transform followPoint);
+        UniTask<Camera> Create(Transform followPoint);
     }
 }

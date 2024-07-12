@@ -12,19 +12,18 @@ namespace CodeBase.Infrastructure.Factories.ProjectileFactory
     public class ProjectileFactory : IProjectileFactory
     {
         private readonly IAddressablesLoader _addressablesLoader;
-        private readonly PrefabAddresses _prefabAddresses;
         private readonly IInstantiator _instantiator;
-        private readonly ProjectilesConfig _projectilesConfig;
+        private readonly PrefabAddresses _prefabAddresses;
+        private readonly ProjectileConfig _projectileConfig;
 
         public ProjectileFactory(IAddressablesLoader addressablesLoader,
-            PrefabAddresses prefabAddresses,
             IInstantiator instantiator,
             IStaticDataProvider staticDataProvider)
         {
             _addressablesLoader = addressablesLoader;
-            _prefabAddresses = prefabAddresses;
             _instantiator = instantiator;
-            _projectilesConfig = staticDataProvider.ProjectilesConfig;
+            _prefabAddresses = staticDataProvider.PrefabAddresses;
+            _projectileConfig = staticDataProvider.ProjectileConfig;
         }
 
         public async UniTask Warmup() => 
@@ -38,9 +37,9 @@ namespace CodeBase.Infrastructure.Factories.ProjectileFactory
             IProjectile projectile = projectileGameObject.GetComponent<IProjectile>();
             Rigidbody2D rigidbody = projectileGameObject.GetComponent<Rigidbody2D>();
             
-            IMover mover = new ProjectileMover(_projectilesConfig.MoveSpeed, rigidbody);
+            IMover mover = new ProjectileMover(_projectileConfig.MoveSpeed, rigidbody);
             
-            projectile.Construct(mover, _projectilesConfig.Damage);
+            projectile.Construct(mover, _projectileConfig.Damage);
             
             return projectile;
         }

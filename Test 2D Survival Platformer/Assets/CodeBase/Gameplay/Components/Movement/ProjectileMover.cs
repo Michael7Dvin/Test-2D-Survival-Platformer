@@ -29,8 +29,8 @@ namespace CodeBase.Gameplay.Components.Movement
             
             _isMoving.Value = true;
             
-            Vector2 characterPosition = _rigidbody.position;
-            Vector2 newPosition = characterPosition + direction * (_moveSpeed * deltaTime);
+            Vector2 position = _rigidbody.position;
+            Vector2 newPosition = position + direction * (_moveSpeed * deltaTime);
             
             _rigidbody.MovePosition(newPosition);
         }

@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Character;
+using CodeBase.Gameplay.Services.ProjectilesSpawner;
 using CodeBase.Infrastructure.Factories.CameraFactory;
 using CodeBase.Infrastructure.Factories.CharacterFactory;
 using CodeBase.Infrastructure.Services.CharacterProvider;
@@ -9,6 +10,7 @@ using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
 using CodeBase.UI.Windows;
 using CodeBase.UI.Windows.DeathWindow;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -21,6 +23,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly ICameraFactory _cameraFactory;
         private readonly IWindowService _windowService;
         private readonly ICharacterProvider _characterProvider;
+        private readonly IProjectilesSpawner _projectilesSpawner;
 
         public LevelLoadingState(IGameStateMachine gameStateMachine,
             ISceneLoader sceneLoader,
@@ -28,7 +31,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             IUIFactory uiFactory,
             ICameraFactory cameraFactory,
             IWindowService windowService,
-            ICharacterProvider characterProvider)
+            ICharacterProvider characterProvider,
+            IProjectilesSpawner projectilesSpawner)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -37,6 +41,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _cameraFactory = cameraFactory;
             _windowService = windowService;
             _characterProvider = characterProvider;
+            _projectilesSpawner = projectilesSpawner;
         }
 
         public async void Enter()
@@ -47,7 +52,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _characterProvider.Set(character);
             
             await _cameraFactory.WarmUp();
-            await _cameraFactory.Create(character.GameObject.transform);
+            Camera camera = await _cameraFactory.Create(character.GameObject.transform);
             
             await _uiFactory.WarmUp();
             await _uiFactory.CreateCanvas();
@@ -56,6 +61,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             
             DeathWindowView deathWindowView = await _uiFactory.CreateDeathWindow();
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
+            
+            _projectilesSpawner.Initialize(camera, character);
             
             _gameStateMachine.EnterState<GameplayState>();
         }

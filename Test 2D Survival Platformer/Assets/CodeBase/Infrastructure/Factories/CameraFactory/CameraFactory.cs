@@ -26,14 +26,18 @@ namespace CodeBase.Infrastructure.Factories.CameraFactory
         public async UniTask WarmUp() => 
             await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Camera);
 
-        public async UniTask Create(Transform followPoint)
+        public async UniTask<Camera> Create(Transform followPoint)
         {
             GameObject cameraPrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Camera);
             GameObject cameraGameObject = _instantiator.InstantiatePrefab(cameraPrefab);
 
+            Camera camera = cameraGameObject.GetComponentInChildren<Camera>();
+            
             CinemachineVirtualCamera virtualCamera = cameraGameObject.GetComponentInChildren<CinemachineVirtualCamera>();
             virtualCamera.Follow = followPoint;
             virtualCamera.LookAt = followPoint;
+
+            return camera;
         }
     }
 }

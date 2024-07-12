@@ -77,3 +77,5 @@ MonoBehaviour:
   _sceneAddresses: {fileID: 11400000, guid: b0bd298be084acf419bc3a4527d847d7, type: 2}
   _prefabAddresses: {fileID: 11400000, guid: b71c12f3a8ac8224fbe4920799078ea5, type: 2}
   _characterConfig: {fileID: 11400000, guid: 24dadddb839bfda48a0f889119e6d217, type: 2}
+  _projectileConfig: {fileID: 11400000, guid: a538c83f08ab90d4f8d04a42e578f03f, type: 2}
+  _projectileSpawnerConfig: {fileID: 11400000, guid: 6fab8676f08deea44a0eca43ecf405a2, type: 2}
