@@ -3,8 +3,10 @@ using CodeBase.Infrastructure.Factories.CameraFactory;
 using CodeBase.Infrastructure.Factories.CharacterFactory;
 using CodeBase.Infrastructure.Factories.ProjectileFactory;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
+using CodeBase.Infrastructure.Services.CameraProvider;
 using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.InputService;
+using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.Infrastructure.StateMachine;
@@ -52,9 +54,12 @@ namespace CodeBase.Infrastructure.Installers
             Container.Bind<IProjectileFactory>().To<ProjectileFactory>().AsSingle();
 
             Container.Bind<IWindowService>().To<WindowService>().AsSingle();
+            
             Container.Bind<ICharacterProvider>().To<CharacterProvider>().AsSingle();
+            Container.Bind<ICameraProvider>().To<CameraProvider>().AsSingle();
             
             Container.Bind<IProjectilesSpawner>().To<ProjectilesSpawner>().AsSingle();
+            Container.Bind<IProjectilePool>().To<ProjectilePool>().AsSingle();
         }
 
         private void BindGameStateMachine()

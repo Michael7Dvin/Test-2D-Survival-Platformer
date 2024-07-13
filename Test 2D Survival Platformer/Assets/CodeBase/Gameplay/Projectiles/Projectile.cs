@@ -1,5 +1,5 @@
 ﻿using CodeBase.Gameplay.Components.Healths;
-using CodeBase.Gameplay.Components.Movement;
+using DG.Tweening;
 using UnityEngine;
 
 namespace CodeBase.Gameplay.Projectiles
@@ -7,25 +7,34 @@ namespace CodeBase.Gameplay.Projectiles
     public class Projectile : MonoBehaviour, IProjectile
     {
         private float _damage;
+        private float _moveSpeed;
 
-        public void Construct(IMover mover, float damage)
+        private Tweener _moveTween;
+        
+        public void Construct(float damage, float moveSpeed)
         {
-            Mover = mover;
             _damage = damage;
+            _moveSpeed = moveSpeed;
+
+            _moveTween = transform
+                .DOMove(Vector2.zero, _moveSpeed)
+                .SetSpeedBased()
+                .SetEase(Ease.Linear)
+                .OnComplete(() => gameObject.SetActive(false))
+                .SetAutoKill(false)
+                .Pause();
         }
-
-        public IMover Mover { get; private set; }
+        
         public GameObject GameObject => gameObject;
-        public Transform Target { get; set; }
-        private bool HasTarget => Target != null;
+        public Vector2 TargetDirection { get; set; }
 
-        private void FixedUpdate()
+        public void Launch(Vector2 targetPosition, float durationInSeconds)
         {
-            if (HasTarget == true)
-            {
-                Vector2 direction = (Target.position - transform.position).normalized;
-                Mover.Move(direction, Time.fixedDeltaTime);
-            }
+            Vector2 selfPosition = transform.position;
+            Vector2 targetDirection = (targetPosition - selfPosition).normalized;
+            Vector2 endPosition = selfPosition + targetDirection * durationInSeconds * _moveSpeed;
+
+            _moveTween.ChangeEndValue((Vector3)endPosition, true).Restart();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -33,7 +42,8 @@ namespace CodeBase.Gameplay.Projectiles
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(_damage);
-                Destroy(gameObject);
+                _moveTween.Complete();
+                gameObject.SetActive(false);
             }
         }
     }

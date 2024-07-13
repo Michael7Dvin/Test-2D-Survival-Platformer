@@ -1,7 +1,7 @@
 ﻿using System;
 using CodeBase.Gameplay.Character;
 using CodeBase.Gameplay.Projectiles;
-using CodeBase.Infrastructure.Factories.ProjectileFactory;
+using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using Cysharp.Threading.Tasks;
 using UniRx;
@@ -12,7 +12,7 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
 {
     public class ProjectilesSpawner : IProjectilesSpawner, IDisposable
     {
-        private readonly IProjectileFactory _projectileFactory;
+        private readonly IProjectilePool _projectilePool;
         private readonly float _borderMargin;
         private readonly float _spawnIntervalInSeconds;
         private readonly CompositeDisposable _compositeDisposable = new();
@@ -20,9 +20,9 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
         private Camera _camera;
         private ICharacter _character;
 
-        public ProjectilesSpawner(IProjectileFactory projectileFactory, IStaticDataProvider staticDataProvider)
+        public ProjectilesSpawner(IProjectilePool projectilePool, IStaticDataProvider staticDataProvider)
         {
-            _projectileFactory = projectileFactory;
+            _projectilePool = projectilePool;
             _borderMargin = staticDataProvider.ProjectileSpawnerConfig.ScreenBorderSpawnMargin;
             _spawnIntervalInSeconds = staticDataProvider.ProjectileSpawnerConfig.SpawnIntervalInSeconds;
         }
@@ -37,12 +37,16 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
                 .AddTo(_compositeDisposable);
         }
 
+
+
         private async UniTaskVoid Spawn()
         {
-            IProjectile projectile = await _projectileFactory.Create();
-            projectile.GameObject.transform.position = GetRandomPointOutsideScreen();
-            projectile.Target = _character.GameObject.transform;
-            projectile.Mover.Enabled = true;
+            Vector2 spawnPosition = GetRandomPointOutsideScreen();
+            Vector2 targetPosition = _character.GameObject.transform.position;
+            
+            IProjectile projectile = await _projectilePool.Get();
+            projectile.GameObject.transform.position = spawnPosition;
+            projectile.Launch(targetPosition, 10f);
         }
         
         private Vector2 GetRandomPointOutsideScreen()

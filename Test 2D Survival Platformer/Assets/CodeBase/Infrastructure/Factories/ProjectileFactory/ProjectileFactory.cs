@@ -35,11 +35,8 @@ namespace CodeBase.Infrastructure.Factories.ProjectileFactory
             GameObject projectileGameObject = _instantiator.InstantiatePrefab(projectilePrefab);
             
             IProjectile projectile = projectileGameObject.GetComponent<IProjectile>();
-            Rigidbody2D rigidbody = projectileGameObject.GetComponent<Rigidbody2D>();
-            
-            IMover mover = new ProjectileMover(_projectileConfig.MoveSpeed, rigidbody);
-            
-            projectile.Construct(mover, _projectileConfig.Damage);
+
+            projectile.Construct(_projectileConfig.Damage, _projectileConfig.MoveSpeed);
             
             return projectile;
         }
