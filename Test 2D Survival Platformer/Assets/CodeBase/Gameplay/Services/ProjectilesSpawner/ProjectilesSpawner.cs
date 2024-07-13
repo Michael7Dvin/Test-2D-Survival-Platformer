@@ -3,6 +3,7 @@ using CodeBase.Gameplay.Character;
 using CodeBase.Gameplay.Projectiles;
 using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
+using CodeBase.StaticData;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -12,9 +13,10 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
 {
     public class ProjectilesSpawner : IProjectilesSpawner, IDisposable
     {
+        private const float ProjectileActiveTimeInSeconds = 5f;
+
         private readonly IProjectilePool _projectilePool;
-        private readonly float _borderMargin;
-        private readonly float _spawnIntervalInSeconds;
+        private readonly ProjectileSpawnerConfig _config;
         private readonly CompositeDisposable _compositeDisposable = new();
         
         private Camera _camera;
@@ -23,8 +25,7 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
         public ProjectilesSpawner(IProjectilePool projectilePool, IStaticDataProvider staticDataProvider)
         {
             _projectilePool = projectilePool;
-            _borderMargin = staticDataProvider.ProjectileSpawnerConfig.ScreenBorderSpawnMargin;
-            _spawnIntervalInSeconds = staticDataProvider.ProjectileSpawnerConfig.SpawnIntervalInSeconds;
+            _config = staticDataProvider.ProjectileSpawnerConfig;
         }
 
         public void Initialize(Camera camera, ICharacter character)
@@ -32,12 +33,10 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
             _camera = camera;
             _character = character;
             
-            Observable.Interval(TimeSpan.FromSeconds(_spawnIntervalInSeconds))
+            Observable.Interval(TimeSpan.FromSeconds(_config.SpawnIntervalInSeconds))
                 .Subscribe(_ => Spawn().Forget())
                 .AddTo(_compositeDisposable);
         }
-
-
 
         private async UniTaskVoid Spawn()
         {
@@ -46,7 +45,7 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
             
             IProjectile projectile = await _projectilePool.Get();
             projectile.GameObject.transform.position = spawnPosition;
-            projectile.Launch(targetPosition, 10f);
+            projectile.Launch(targetPosition, ProjectileActiveTimeInSeconds);
         }
         
         private Vector2 GetRandomPointOutsideScreen()
@@ -54,10 +53,12 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
             Vector2 screenBottomLeft = _camera.ScreenToWorldPoint(new Vector2(0, 0));
             Vector2 screenTopRight = _camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
-            float minX = screenBottomLeft.x - _borderMargin;
-            float maxX = screenTopRight.x + _borderMargin;
-            float minY = screenBottomLeft.y - _borderMargin;
-            float maxY = screenTopRight.y + _borderMargin;
+            float borderMargin = _config.ScreenBorderSpawnMargin;
+            
+            float minX = screenBottomLeft.x - borderMargin;
+            float maxX = screenTopRight.x + borderMargin;
+            float minY = screenBottomLeft.y - borderMargin + _config.SpawnRandomPointMinYOffset;
+            float maxY = screenTopRight.y + borderMargin;
 
             int side = Random.Range(0, 3); // 0 = left, 1 = right, 2 = top
 

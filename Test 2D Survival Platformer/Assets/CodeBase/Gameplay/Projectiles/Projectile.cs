@@ -26,7 +26,6 @@ namespace CodeBase.Gameplay.Projectiles
         }
         
         public GameObject GameObject => gameObject;
-        public Vector2 TargetDirection { get; set; }
 
         public void Launch(Vector2 targetPosition, float durationInSeconds)
         {

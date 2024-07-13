@@ -7,5 +7,6 @@ namespace CodeBase.StaticData
     {
         [field: SerializeField] public float SpawnIntervalInSeconds { get; private set; }
         [field: SerializeField] public float ScreenBorderSpawnMargin { get; private set; }
+        [field: SerializeField] public float SpawnRandomPointMinYOffset { get; private set; }
     }
 }
