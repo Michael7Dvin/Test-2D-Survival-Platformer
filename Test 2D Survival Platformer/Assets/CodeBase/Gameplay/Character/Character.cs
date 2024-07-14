@@ -1,7 +1,7 @@
-﻿using CodeBase.Gameplay.Character.CharacterAnimation;
-using CodeBase.Gameplay.Character.Death;
-using CodeBase.Gameplay.Character.Healths;
-using CodeBase.Gameplay.Character.Movement;
+﻿using CodeBase.Gameplay.Components.Animator;
+using CodeBase.Gameplay.Components.Death;
+using CodeBase.Gameplay.Components.Healths;
+using CodeBase.Gameplay.Components.Movement;
 using CodeBase.Infrastructure.Services.InputService;
 using UniRx;
 using UnityEngine;
@@ -49,12 +49,6 @@ namespace CodeBase.Gameplay.Character
                     Mover.Move(moveDirection, Time.fixedDeltaTime);
                 })
                 .AddTo(this);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKey(KeyCode.Q))
-                Damageable.TakeDamage(100f);
         }
     }
 }

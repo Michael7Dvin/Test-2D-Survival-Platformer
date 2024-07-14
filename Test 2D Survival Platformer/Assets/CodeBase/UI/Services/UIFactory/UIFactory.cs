@@ -1,6 +1,7 @@
-﻿using CodeBase.Gameplay.Character.Healths;
+﻿using CodeBase.Gameplay.Components.Healths;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
+using CodeBase.StaticData;
 using CodeBase.UI.CharacterHealth;
 using CodeBase.UI.Windows.DeathWindow;
 using Cysharp.Threading.Tasks;

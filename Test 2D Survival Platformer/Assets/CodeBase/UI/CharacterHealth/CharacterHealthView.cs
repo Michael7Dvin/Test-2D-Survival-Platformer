@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CodeBase.Gameplay.Character.Healths;
+using CodeBase.Gameplay.Components.Healths;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
@@ -68,11 +68,16 @@ namespace CodeBase.UI.CharacterHealth
 
         private async UniTaskVoid OnHealed()
         {
+            _fillAmountTweener.Complete();
+            
             await RestartFillAmountTweener();
         }
 
         private async UniTaskVoid OnDamaged()
         {
+            _fadeSequence.Complete();
+            _fillAmountTweener.Complete();
+
             _fadeSequence.Restart();
             await _fadeSequence.AwaitForComplete();
             
@@ -89,7 +94,7 @@ namespace CodeBase.UI.CharacterHealth
         private void UpdateFillAmountTweenValues()
         {
             float targetFillAmount = _health.CurrentHealth.Value / _health.MaxHealth;
-            _fillAmountTweener.ChangeStartValue(_fillImage.fillAmount).ChangeEndValue(targetFillAmount);
+            _fillAmountTweener.ChangeEndValue(targetFillAmount, true);
         }
     }
 }

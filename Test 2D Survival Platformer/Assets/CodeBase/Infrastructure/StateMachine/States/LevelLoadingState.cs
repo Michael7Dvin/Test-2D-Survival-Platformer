@@ -1,14 +1,17 @@
 ﻿using CodeBase.Gameplay.Character;
-using CodeBase.Infrastructure.Services.CameraFactory;
-using CodeBase.Infrastructure.Services.CharacterFactory;
+using CodeBase.Gameplay.Services.ProjectilesSpawner;
+using CodeBase.Infrastructure.Factories.CameraFactory;
+using CodeBase.Infrastructure.Factories.CharacterFactory;
+using CodeBase.Infrastructure.Services.CameraProvider;
 using CodeBase.Infrastructure.Services.CharacterProvider;
+using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.StateMachine.States.Base;
-using CodeBase.UI.Services;
 using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
 using CodeBase.UI.Windows;
 using CodeBase.UI.Windows.DeathWindow;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -21,6 +24,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly ICameraFactory _cameraFactory;
         private readonly IWindowService _windowService;
         private readonly ICharacterProvider _characterProvider;
+        private readonly ICameraProvider _cameraProvider;
+        private readonly IProjectilePool _projectilePool;
 
         public LevelLoadingState(IGameStateMachine gameStateMachine,
             ISceneLoader sceneLoader,
@@ -28,7 +33,9 @@ namespace CodeBase.Infrastructure.StateMachine.States
             IUIFactory uiFactory,
             ICameraFactory cameraFactory,
             IWindowService windowService,
-            ICharacterProvider characterProvider)
+            ICharacterProvider characterProvider,
+            ICameraProvider cameraProvider,
+            IProjectilePool projectilePool)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -37,6 +44,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _cameraFactory = cameraFactory;
             _windowService = windowService;
             _characterProvider = characterProvider;
+            _cameraProvider = cameraProvider;
+            _projectilePool = projectilePool;
         }
 
         public async void Enter()
@@ -47,7 +56,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _characterProvider.Set(character);
             
             await _cameraFactory.WarmUp();
-            await _cameraFactory.Create(character.GameObject.transform);
+            Camera camera = await _cameraFactory.Create(character.GameObject.transform);
+            _cameraProvider.Set(camera);
             
             await _uiFactory.WarmUp();
             await _uiFactory.CreateCanvas();
@@ -57,12 +67,13 @@ namespace CodeBase.Infrastructure.StateMachine.States
             DeathWindowView deathWindowView = await _uiFactory.CreateDeathWindow();
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
+            await _projectilePool.Initialize(6);
+
             _gameStateMachine.EnterState<GameplayState>();
         }
 
         public void Exit()
         {
-            
         }
     }
 }
