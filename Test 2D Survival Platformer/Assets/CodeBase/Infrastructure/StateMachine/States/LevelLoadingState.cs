@@ -4,9 +4,9 @@ using CodeBase.Infrastructure.Factories.CameraFactory;
 using CodeBase.Infrastructure.Factories.CharacterFactory;
 using CodeBase.Infrastructure.Services.CameraProvider;
 using CodeBase.Infrastructure.Services.CharacterProvider;
+using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.Services.SceneLoader;
 using CodeBase.Infrastructure.StateMachine.States.Base;
-using CodeBase.UI.Services;
 using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
 using CodeBase.UI.Windows;
@@ -25,6 +25,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly IWindowService _windowService;
         private readonly ICharacterProvider _characterProvider;
         private readonly ICameraProvider _cameraProvider;
+        private readonly IProjectilePool _projectilePool;
 
         public LevelLoadingState(IGameStateMachine gameStateMachine,
             ISceneLoader sceneLoader,
@@ -33,7 +34,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             ICameraFactory cameraFactory,
             IWindowService windowService,
             ICharacterProvider characterProvider,
-            ICameraProvider cameraProvider)
+            ICameraProvider cameraProvider,
+            IProjectilePool projectilePool)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -43,6 +45,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _windowService = windowService;
             _characterProvider = characterProvider;
             _cameraProvider = cameraProvider;
+            _projectilePool = projectilePool;
         }
 
         public async void Enter()
@@ -64,6 +67,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             DeathWindowView deathWindowView = await _uiFactory.CreateDeathWindow();
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
+            await _projectilePool.Initialize(6);
+
             _gameStateMachine.EnterState<GameplayState>();
         }
 

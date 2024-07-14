@@ -28,7 +28,7 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
             _config = staticDataProvider.ProjectileSpawnerConfig;
         }
 
-        public void Initialize(Camera camera, ICharacter character)
+        public void Enable(Camera camera, ICharacter character)
         {
             _camera = camera;
             _character = character;
@@ -37,6 +37,9 @@ namespace CodeBase.Gameplay.Services.ProjectilesSpawner
                 .Subscribe(_ => Spawn().Forget())
                 .AddTo(_compositeDisposable);
         }
+
+        public void Disable() => 
+            _compositeDisposable.Clear();
 
         private async UniTaskVoid Spawn()
         {

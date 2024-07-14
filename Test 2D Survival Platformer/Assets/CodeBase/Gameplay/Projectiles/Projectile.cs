@@ -1,15 +1,25 @@
 ﻿using CodeBase.Gameplay.Components.Healths;
+using CodeBase.Infrastructure.Services.ProjectilePool;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 namespace CodeBase.Gameplay.Projectiles
 {
     public class Projectile : MonoBehaviour, IProjectile
     {
+        private IProjectilePool _projectilePool;
+        
         private float _damage;
         private float _moveSpeed;
 
         private Tweener _moveTween;
+
+        [Inject]
+        public void InjectDependencies(IProjectilePool projectilePool)
+        {
+            _projectilePool = projectilePool;
+        }
         
         public void Construct(float damage, float moveSpeed)
         {
@@ -20,7 +30,7 @@ namespace CodeBase.Gameplay.Projectiles
                 .DOMove(Vector2.zero, _moveSpeed)
                 .SetSpeedBased()
                 .SetEase(Ease.Linear)
-                .OnComplete(() => gameObject.SetActive(false))
+                .OnComplete(() => _projectilePool.Release(this))
                 .SetAutoKill(false)
                 .Pause();
         }
@@ -33,6 +43,9 @@ namespace CodeBase.Gameplay.Projectiles
             Vector2 targetDirection = (targetPosition - selfPosition).normalized;
             Vector2 endPosition = selfPosition + targetDirection * durationInSeconds * _moveSpeed;
 
+            float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            
             _moveTween.ChangeEndValue((Vector3)endPosition, true).Restart();
         }
 
@@ -41,8 +54,8 @@ namespace CodeBase.Gameplay.Projectiles
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(_damage);
-                _moveTween.Complete();
-                gameObject.SetActive(false);
+                _moveTween.Pause();
+                _projectilePool.Release(this);
             }
         }
     }
