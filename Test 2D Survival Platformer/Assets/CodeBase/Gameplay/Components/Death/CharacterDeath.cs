@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Components.Movement;
+using CodeBase.Gameplay.Components.Vanish;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
@@ -11,13 +12,15 @@ namespace CodeBase.Gameplay.Components.Death
         private readonly ReactiveProperty<bool> _isDead = new();
         private readonly GameObject _characterGameObject;
         private readonly IMover _characterMover;
+        private readonly IVanish _vanish;
 
         private Tweener _shrinkTweener;
 
-        public CharacterDeath(GameObject characterGameObject, IMover characterMover)
+        public CharacterDeath(GameObject characterGameObject, IMover characterMover, IVanish vanish)
         {
             _characterGameObject = characterGameObject;
             _characterMover = characterMover;
+            _vanish = vanish;
         }
 
         public IReadOnlyReactiveProperty<bool> IsDead => _isDead;
@@ -33,6 +36,7 @@ namespace CodeBase.Gameplay.Components.Death
         public async UniTaskVoid Die()
         {
             _characterMover.Enabled = false;
+            _vanish.Enabled = false;
             
             Vector3 currentScale = _characterGameObject.transform.localScale;
             float targetScaleX = Mathf.Sign(currentScale.x) * 0.5f;
@@ -49,6 +53,8 @@ namespace CodeBase.Gameplay.Components.Death
 
         public void AbortDeath()
         {
+            _characterMover.Enabled = true;
+            _vanish.Enabled = true;
             _characterGameObject.transform.localScale = Vector3.one;
             _isDead.Value = false;
         }

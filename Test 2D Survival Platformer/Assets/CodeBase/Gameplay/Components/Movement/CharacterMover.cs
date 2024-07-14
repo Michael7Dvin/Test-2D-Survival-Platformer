@@ -18,7 +18,7 @@ namespace CodeBase.Gameplay.Components.Movement
             _transform = rigidbody.transform;
         }
 
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = true;
         public IReadOnlyReactiveProperty<bool> IsMoving => _isMoving;
 
         private bool IsFacingRight => 

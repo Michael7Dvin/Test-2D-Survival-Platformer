@@ -12,6 +12,7 @@ namespace CodeBase.Gameplay.Components.Vanish
         
         private readonly Sequence _vanishSequence;
         private readonly UniTask _cooldownDelay;
+        private bool _readyToActivate = true;
 
         public Vanish(float durationInSeconds,
             float cooldownInSeconds,
@@ -40,10 +41,19 @@ namespace CodeBase.Gameplay.Components.Vanish
                 .Pause();
         }
 
-        public bool ReadyToActivate { get; private set; } = true;
+        public bool Enabled { get; set; } = true;
+
+        public bool ReadyToActivate
+        {
+            get => Enabled == true && _readyToActivate;
+            private set => _readyToActivate = value;
+        }
 
         public async UniTaskVoid Activate()
         {
+            if (Enabled == false)
+                return;
+            
             if (ReadyToActivate == false)
             {
                 Debug.LogError($"Unable to activate. {nameof(ReadyToActivate)} is false.");
@@ -59,7 +69,6 @@ namespace CodeBase.Gameplay.Components.Vanish
             _damageableCollider.enabled = true;
 
             await UniTask.Delay(TimeSpan.FromSeconds(_cooldownInSeconds));
-            Debug.LogWarning("CD");
             ReadyToActivate = true;
         }
     }

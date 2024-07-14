@@ -44,15 +44,16 @@ namespace CodeBase.Infrastructure.Factories.CharacterFactory
             
             IMover mover = CreateMover(characterGameObject.GetComponent<Rigidbody2D>());
             CharacterHealth characterHealth = CreateHealth(characterGameObject);
-            IDieable dieable = CreateDeath(characterGameObject, mover);
-            dieable.Initialize();
-            
-            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponentInChildren<Animator>(), mover, dieable);
-            animator.Initialize();
             
             Collider2D damageableCollider = characterHealth.GetComponent<Collider2D>();
             SpriteRenderer spriteRenderer = characterGameObject.GetComponentInChildren<SpriteRenderer>();
             IVanish vanish = CreateVanish(damageableCollider, spriteRenderer);
+            
+            IDieable dieable = CreateDeath(characterGameObject, mover, vanish);
+            dieable.Initialize();
+            
+            ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponentInChildren<Animator>(), mover, dieable);
+            animator.Initialize();
             
             ICharacter character = characterGameObject.GetComponent<ICharacter>();
             character.Construct(mover, characterHealth, characterHealth, dieable, animator, vanish);
@@ -71,8 +72,8 @@ namespace CodeBase.Infrastructure.Factories.CharacterFactory
             return characterHealth;
         }
 
-        private static IDieable CreateDeath(GameObject characterGameObject, IMover mover) =>
-            new CharacterDeath(characterGameObject, mover);
+        private static IDieable CreateDeath(GameObject characterGameObject, IMover mover, IVanish vanish) =>
+            new CharacterDeath(characterGameObject, mover, vanish);
 
         private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover, IDieable dieable) => 
             new CharacterAnimator(animator, mover, dieable);
