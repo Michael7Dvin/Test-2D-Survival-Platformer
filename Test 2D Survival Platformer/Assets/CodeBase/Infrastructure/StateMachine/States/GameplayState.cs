@@ -40,8 +40,6 @@ namespace CodeBase.Infrastructure.StateMachine.States
                 .Subscribe(_ => _windowService.ShowWindow(WindowID.DeathWindow))
                 .AddTo(_compositeDisposable);
 
-            character.Mover.Enabled = true;
-
             _projectilesSpawner.Enable(camera, character);
         }
 
