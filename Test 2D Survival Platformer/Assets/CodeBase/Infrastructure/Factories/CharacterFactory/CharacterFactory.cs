@@ -3,6 +3,7 @@ using CodeBase.Gameplay.Components.Animator;
 using CodeBase.Gameplay.Components.Death;
 using CodeBase.Gameplay.Components.Healths;
 using CodeBase.Gameplay.Components.Movement;
+using CodeBase.Gameplay.Components.Vanish;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.StaticData;
@@ -49,8 +50,12 @@ namespace CodeBase.Infrastructure.Factories.CharacterFactory
             ICharacterAnimator animator = CreateAnimator(characterGameObject.GetComponentInChildren<Animator>(), mover, dieable);
             animator.Initialize();
             
+            Collider2D damageableCollider = characterHealth.GetComponent<Collider2D>();
+            SpriteRenderer spriteRenderer = characterGameObject.GetComponentInChildren<SpriteRenderer>();
+            IVanish vanish = CreateVanish(damageableCollider, spriteRenderer);
+            
             ICharacter character = characterGameObject.GetComponent<ICharacter>();
-            character.Construct(mover, characterHealth, characterHealth, dieable, animator);
+            character.Construct(mover, characterHealth, characterHealth, dieable, animator, vanish);
             character.Initialize();
 
             return character;
@@ -71,5 +76,14 @@ namespace CodeBase.Infrastructure.Factories.CharacterFactory
 
         private static ICharacterAnimator CreateAnimator(Animator animator, IMover mover, IDieable dieable) => 
             new CharacterAnimator(animator, mover, dieable);
+
+        private IVanish CreateVanish(Collider2D damageableCollider, SpriteRenderer spriteRenderer)
+        {
+            return new Vanish(_characterConfig.VanishDurationInSeconds,
+                _characterConfig.VanishCooldownInSeconds,
+                _characterConfig.VanishFadeAnimationDurationInSeconds,
+                damageableCollider,
+                spriteRenderer);
+        }
     }
 }

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SpawnIntervalInSeconds>k__BackingField: 1
   <ScreenBorderSpawnMargin>k__BackingField: 5
+  <SpawnRandomPointMinYOffset>k__BackingField: 15
