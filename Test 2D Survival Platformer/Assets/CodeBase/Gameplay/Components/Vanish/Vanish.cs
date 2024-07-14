@@ -24,7 +24,7 @@ namespace CodeBase.Gameplay.Components.Vanish
             _damageableCollider = damageableCollider;
             
             Tweener fadeOutTween = spriteRenderer
-                .DOFade(0f, fadeAnimationDurationInSeconds)
+                .DOFade(0.1f, fadeAnimationDurationInSeconds)
                 .SetAutoKill(false)
                 .Pause();
             
