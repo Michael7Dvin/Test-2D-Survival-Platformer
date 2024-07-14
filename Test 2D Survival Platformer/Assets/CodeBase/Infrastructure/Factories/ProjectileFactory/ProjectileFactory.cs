@@ -1,5 +1,4 @@
-﻿using CodeBase.Gameplay.Components.Movement;
-using CodeBase.Gameplay.Projectiles;
+﻿using CodeBase.Gameplay.Projectiles;
 using CodeBase.Infrastructure.Services.AddressablesLoader;
 using CodeBase.Infrastructure.Services.StaticDataProvider;
 using CodeBase.StaticData;
@@ -11,6 +10,8 @@ namespace CodeBase.Infrastructure.Factories.ProjectileFactory
 {
     public class ProjectileFactory : IProjectileFactory
     {
+        private readonly Transform _instantiationParent = new GameObject("Projectiles").transform;
+        
         private readonly IAddressablesLoader _addressablesLoader;
         private readonly IInstantiator _instantiator;
         private readonly PrefabAddresses _prefabAddresses;
@@ -32,7 +33,7 @@ namespace CodeBase.Infrastructure.Factories.ProjectileFactory
         public async UniTask<IProjectile> Create()
         {
             GameObject projectilePrefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.Projectile);
-            GameObject projectileGameObject = _instantiator.InstantiatePrefab(projectilePrefab);
+            GameObject projectileGameObject = _instantiator.InstantiatePrefab(projectilePrefab, _instantiationParent);
             
             IProjectile projectile = projectileGameObject.GetComponent<IProjectile>();
 

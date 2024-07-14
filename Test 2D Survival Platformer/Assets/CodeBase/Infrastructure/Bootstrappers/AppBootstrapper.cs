@@ -2,24 +2,20 @@
 using CodeBase.Infrastructure.StateMachine.States;
 using Zenject;
 
-namespace CodeBase.Infrastructure
+namespace CodeBase.Infrastructure.Bootstrappers
 {
-    public class Bootstrapper : IInitializable
+    public class AppBootstrapper : IInitializable
     {
         private readonly IGameStateMachine _stateMachine;
 
-        public Bootstrapper(IGameStateMachine stateMachine,
+        public AppBootstrapper(IGameStateMachine stateMachine,
             InitializationState initializationState,
-            LevelLoadingState levelLoadingState,
-            GameplayState gameplayState,
-            RestartState restartState)
+            SceneLoadingState sceneLoadingState)
         {
             _stateMachine = stateMachine;
 
             _stateMachine.AddState(initializationState);
-            _stateMachine.AddState(levelLoadingState);
-            _stateMachine.AddState(gameplayState);
-            _stateMachine.AddState(restartState);
+            _stateMachine.AddState(sceneLoadingState);
         }
 
         public void Initialize() => 

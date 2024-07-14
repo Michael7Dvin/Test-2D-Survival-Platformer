@@ -22,7 +22,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             await Addressables.InitializeAsync();
             DOTween.Init();
             
-            _gameStateMachine.EnterState<LevelLoadingState>();
+            _gameStateMachine.EnterState<SceneLoadingState>();
         }
 
         public void Exit()
