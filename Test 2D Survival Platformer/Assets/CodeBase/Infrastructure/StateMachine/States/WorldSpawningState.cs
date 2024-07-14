@@ -15,6 +15,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
 {
     public class WorldSpawningState : IState
     {
+        private readonly IGameStateMachine _gameStateMachine;
+        
         private readonly ICharacterFactory _characterFactory;
         private readonly IUIFactory _uiFactory;
         private readonly ICameraFactory _cameraFactory;
@@ -23,7 +25,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly ICameraProvider _cameraProvider;
         private readonly IProjectilePool _projectilePool;
 
-        public WorldSpawningState(ICharacterFactory characterFactory,
+        public WorldSpawningState(IGameStateMachine gameStateMachine,
+            ICharacterFactory characterFactory,
             IUIFactory uiFactory,
             ICameraFactory cameraFactory,
             IWindowService windowService,
@@ -31,6 +34,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             ICameraProvider cameraProvider,
             IProjectilePool projectilePool)
         {
+            _gameStateMachine = gameStateMachine;
             _characterFactory = characterFactory;
             _uiFactory = uiFactory;
             _cameraFactory = cameraFactory;
@@ -59,6 +63,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
             await _projectilePool.Initialize(6);
+            
+            _gameStateMachine.EnterState<GameplayState>();        
         }
 
         public void Exit()

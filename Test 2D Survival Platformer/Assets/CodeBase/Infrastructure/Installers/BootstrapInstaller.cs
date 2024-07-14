@@ -1,3 +1,4 @@
+using CodeBase.Infrastructure.Bootstrappers;
 using Zenject;
 
 namespace CodeBase.Infrastructure.Installers
@@ -6,7 +7,7 @@ namespace CodeBase.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<Bootstrapper>().AsSingle();
+            Container.BindInterfacesTo<AppBootstrapper>().AsSingle();
         }
     }
 }

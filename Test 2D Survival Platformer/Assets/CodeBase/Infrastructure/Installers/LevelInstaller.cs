@@ -1,4 +1,5 @@
 ﻿using CodeBase.Gameplay.Services.ProjectilesSpawner;
+using CodeBase.Infrastructure.Bootstrappers;
 using CodeBase.Infrastructure.Factories.CameraFactory;
 using CodeBase.Infrastructure.Factories.CharacterFactory;
 using CodeBase.Infrastructure.Factories.ProjectileFactory;
@@ -16,9 +17,21 @@ namespace CodeBase.Infrastructure.Installers
     {
         public override void InstallBindings()
         {
+            BindBootstrapper();
             BindFactories();
             BindServices();
             BindStates();
+        }
+
+        private void BindBootstrapper() => 
+            Container.BindInterfacesTo<LevelBootstrapper>().AsSingle();
+
+        private void BindFactories()
+        {
+            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
+            Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
+            Container.Bind<ICameraFactory>().To<CameraFactory>().AsSingle();
+            Container.Bind<IProjectileFactory>().To<ProjectileFactory>().AsSingle();
         }
 
         private void BindServices()
@@ -30,14 +43,6 @@ namespace CodeBase.Infrastructure.Installers
 
             Container.Bind<IProjectilesSpawner>().To<ProjectilesSpawner>().AsSingle();
             Container.Bind<IProjectilePool>().To<ProjectilePool>().AsSingle();
-        }
-
-        private void BindFactories()
-        {
-            Container.Bind<ICharacterFactory>().To<CharacterFactory>().AsSingle();
-            Container.Bind<IUIFactory>().To<UIFactory>().AsSingle();
-            Container.Bind<ICameraFactory>().To<CameraFactory>().AsSingle();
-            Container.Bind<IProjectileFactory>().To<ProjectileFactory>().AsSingle();
         }
 
         private void BindStates()
