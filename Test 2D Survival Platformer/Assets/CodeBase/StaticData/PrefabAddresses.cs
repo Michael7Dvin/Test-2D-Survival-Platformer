@@ -16,5 +16,6 @@ namespace CodeBase.StaticData
         [field: SerializeField] public AssetReferenceGameObject EventSystem { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject CharacterHealth { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject DeathWindowView { get; private set; }
+        [field: SerializeField] public AssetReferenceGameObject LoadingScreen { get; private set; }
     }
 }

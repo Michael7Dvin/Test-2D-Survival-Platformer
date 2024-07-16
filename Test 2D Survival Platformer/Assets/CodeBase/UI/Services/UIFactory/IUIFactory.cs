@@ -2,6 +2,7 @@
 using CodeBase.UI.CharacterHealth;
 using CodeBase.UI.Windows.DeathWindow;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace CodeBase.UI.Services.UIFactory
 {
@@ -13,6 +14,6 @@ namespace CodeBase.UI.Services.UIFactory
         
         UniTask<CharacterHealthView> CreateCharacterHealthView(IHealth characterHealth);
         UniTask<DeathWindowView> CreateDeathWindow(bool visible = false);
-        
+        UniTask<GameObject> CreateLoadingScreen();
     }
 }
