@@ -5,6 +5,7 @@ using CodeBase.Infrastructure.Services.CameraProvider;
 using CodeBase.Infrastructure.Services.CharacterProvider;
 using CodeBase.Infrastructure.Services.ProjectilePool;
 using CodeBase.Infrastructure.StateMachine.States.Base;
+using CodeBase.UI.Services.LoadingScreen;
 using CodeBase.UI.Services.UIFactory;
 using CodeBase.UI.Services.WindowService;
 using CodeBase.UI.Windows;
@@ -24,6 +25,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private readonly ICharacterProvider _characterProvider;
         private readonly ICameraProvider _cameraProvider;
         private readonly IProjectilePool _projectilePool;
+        private readonly ILoadingScreenService _loadingScreenService;
 
         public WorldSpawningState(IGameStateMachine gameStateMachine,
             ICharacterFactory characterFactory,
@@ -32,7 +34,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             IWindowService windowService,
             ICharacterProvider characterProvider,
             ICameraProvider cameraProvider,
-            IProjectilePool projectilePool)
+            IProjectilePool projectilePool,
+            ILoadingScreenService loadingScreenService)
         {
             _gameStateMachine = gameStateMachine;
             _characterFactory = characterFactory;
@@ -42,6 +45,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _characterProvider = characterProvider;
             _cameraProvider = cameraProvider;
             _projectilePool = projectilePool;
+            _loadingScreenService = loadingScreenService;
         }
 
         public async void Enter()
@@ -63,6 +67,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _windowService.RegisterWindow(WindowID.DeathWindow, deathWindowView);
             
             await _projectilePool.Initialize(6);
+
+            await _loadingScreenService.Hide();
             
             _gameStateMachine.EnterState<GameplayState>();        
         }

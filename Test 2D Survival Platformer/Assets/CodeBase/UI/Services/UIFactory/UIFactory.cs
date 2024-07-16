@@ -84,7 +84,7 @@ namespace CodeBase.UI.Services.UIFactory
             
             return view;
         }
-
+        
         private bool ValidateCanvasAndEventSystem()
         {
             if (_canvas == null || _eventSystem == null)

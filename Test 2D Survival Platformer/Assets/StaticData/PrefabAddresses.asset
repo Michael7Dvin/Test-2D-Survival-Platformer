@@ -43,7 +43,12 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   <DeathWindowView>k__BackingField:
-    m_AssetGUID: 90c1f5a014e25f448b29dbf1671eccca
+    m_AssetGUID: 91eff135fa2bb6c4397a26a2e9dd66ef
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <LoadingScreen>k__BackingField:
+    m_AssetGUID: 2e62010c7203db94f8e08ecc099e83e2
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

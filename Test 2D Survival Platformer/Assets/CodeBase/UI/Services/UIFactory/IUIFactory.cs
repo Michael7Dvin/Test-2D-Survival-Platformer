@@ -13,6 +13,5 @@ namespace CodeBase.UI.Services.UIFactory
         
         UniTask<CharacterHealthView> CreateCharacterHealthView(IHealth characterHealth);
         UniTask<DeathWindowView> CreateDeathWindow(bool visible = false);
-        
     }
 }
