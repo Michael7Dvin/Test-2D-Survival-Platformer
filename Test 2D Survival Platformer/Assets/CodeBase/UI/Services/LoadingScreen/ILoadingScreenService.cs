@@ -1,11 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
+﻿
+using Cysharp.Threading.Tasks;
 
 namespace CodeBase.UI.Services.LoadingScreen
 {
-    public interface ILoadingScreen
+    public interface ILoadingScreenService
     {
         UniTask Initialize();
         void Show();
-        void Hide();
+        UniTask Hide();
     }
 }

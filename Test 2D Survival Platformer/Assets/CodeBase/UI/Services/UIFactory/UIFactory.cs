@@ -84,18 +84,7 @@ namespace CodeBase.UI.Services.UIFactory
             
             return view;
         }
-
-        public async UniTask<GameObject> CreateLoadingScreen()
-        {
-            await CreateCanvas();
-            await CreateEventSystem();
-
-            GameObject prefab = await _addressablesLoader.LoadGameObjectAsync(_prefabAddresses.LoadingScreen);
-            GameObject gameObject = _instantiator.InstantiatePrefab(prefab, _canvas.transform);
-            
-            return gameObject;
-        }
-
+        
         private bool ValidateCanvasAndEventSystem()
         {
             if (_canvas == null || _eventSystem == null)
