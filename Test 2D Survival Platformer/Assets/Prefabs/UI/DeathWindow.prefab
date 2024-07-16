@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 2614170635031567338}
   - component: {fileID: 341003500115817476}
   m_Layer: 5
-  m_Name: Death Window
+  m_Name: DeathWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
